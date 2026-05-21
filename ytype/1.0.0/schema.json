@@ -2,7 +2,11 @@
   "$schema": "https://yettagam.net/ytype/1.0.0/schema.json",
   "$version": "1.0.0",
   "$role": "type-definition",
+  "type": "object",
   "required": [
+    "$schema",
+    "$version",
+    "$role",
     "name",
     "label",
     "description",
@@ -14,6 +18,21 @@
     "schema"
   ],
   "properties": {
+    "$schema": {
+      "type": "string",
+      "format": "uri",
+      "description": "URI of the yType meta-schema this type conforms to"
+    },
+    "$version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "description": "Semantic version of this type definition"
+    },
+    "$role": {
+      "type": "string",
+      "enum": ["type-definition"],
+      "description": "Role identifier — must be 'type-definition' for yType files"
+    },
     "name": {
       "type": "string",
       "pattern": "^[a-z0-9_-]+$"

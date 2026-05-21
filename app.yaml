@@ -88,7 +88,9 @@ handlers:
     static_files: index.html
     upload: index\.html
 
-  # 404
+  # Catch-all — dynamic handler returns 404.html with proper status code
   - url: /.*
-    static_files: 404.html
-    upload: 404\.html
+    script: auto
+
+error_handlers:
+  - file: 404.html

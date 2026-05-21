@@ -520,7 +520,7 @@
               "properties": {
                 "symmetric": {
                   "type": "boolean",
-                  "description": "Whether this relationship is symmetric (A rel B ⟺ B rel A)",
+                  "description": "Whether this relationship is symmetric (A rel B \u27fa B rel A)",
                   "x:ui": {
                     "widget": "switch",
                     "order": 1
@@ -528,7 +528,7 @@
                 },
                 "transitive": {
                   "type": "boolean",
-                  "description": "Whether this relationship is transitive (A rel B ∧ B rel C ⟹ A rel C)",
+                  "description": "Whether this relationship is transitive (A rel B \u2227 B rel C \u27f9 A rel C)",
                   "x:ui": {
                     "widget": "switch",
                     "order": 2
@@ -666,7 +666,11 @@
             "type": "string",
             "description": "MIME type of the media file"
           }
-        }
+        },
+        "required": [
+          "mime_type",
+          "ypath"
+        ]
       },
       "duration": {
         "type": "number",
@@ -685,8 +689,6 @@
       "label",
       "name",
       "source",
-      "source.ypath",
-      "source.mime_type",
       "ytype",
       "ytype_label"
     ]
