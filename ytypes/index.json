@@ -1,0 +1,243 @@
+{
+  "name": "yettagam-types",
+  "version": "1.0.0",
+  "description": "manifest of all yettagam type definitions",
+  "types": [
+    {
+      "name": "audio",
+      "label": "Audio",
+      "description": "Type for audio content",
+      "kind": "concrete",
+      "version": "1.0.0",
+      "final": false,
+      "singleton": false,
+      "inherits_from": [
+        "/ytypes/media/"
+      ],
+      "permalink": "https://yettagam.net/ytypes/audio/1.0.0/audio.ytype",
+      "latest": "https://yettagam.net/ytypes/audio/latest.ytype"
+    },
+    {
+      "name": "base",
+      "label": "Base",
+      "description": "Base type from which all types can inherit",
+      "kind": "abstract",
+      "version": "1.0.0",
+      "final": false,
+      "singleton": false,
+      "inherits_from": [],
+      "permalink": "https://yettagam.net/ytypes/base/1.0.0/base.ytype",
+      "latest": "https://yettagam.net/ytypes/base/latest.ytype"
+    },
+    {
+      "name": "commit",
+      "label": "Commit Summary",
+      "description": "Cryptographically signed commit summary containing LBFS and VFS operation signatures",
+      "kind": "concrete",
+      "version": "1.0.0",
+      "final": false,
+      "singleton": false,
+      "inherits_from": [
+        "/ytypes/base/"
+      ],
+      "permalink": "https://yettagam.net/ytypes/commit/1.0.0/commit.ytype",
+      "latest": "https://yettagam.net/ytypes/commit/latest.ytype"
+    },
+    {
+      "name": "document",
+      "label": "Document",
+      "description": "Type for text based content",
+      "kind": "concrete",
+      "version": "1.0.0",
+      "final": false,
+      "singleton": false,
+      "inherits_from": [
+        "/ytypes/media/"
+      ],
+      "permalink": "https://yettagam.net/ytypes/document/1.0.0/document.ytype",
+      "latest": "https://yettagam.net/ytypes/document/latest.ytype"
+    },
+    {
+      "name": "exhibition",
+      "label": "Exhibition",
+      "description": "Type for exhibition content",
+      "kind": "concrete",
+      "version": "1.0.0",
+      "final": false,
+      "singleton": false,
+      "inherits_from": [
+        "/ytypes/base/"
+      ],
+      "permalink": "https://yettagam.net/ytypes/exhibition/1.0.0/exhibition.ytype",
+      "latest": "https://yettagam.net/ytypes/exhibition/latest.ytype"
+    },
+    {
+      "name": "ibase",
+      "label": "iBase",
+      "description": "Extends base to include a standard thumbnail image",
+      "kind": "abstract",
+      "version": "1.0.0",
+      "final": false,
+      "singleton": false,
+      "inherits_from": [
+        "/ytypes/base/"
+      ],
+      "permalink": "https://yettagam.net/ytypes/ibase/1.0.0/ibase.ytype",
+      "latest": "https://yettagam.net/ytypes/ibase/latest.ytype"
+    },
+    {
+      "name": "image",
+      "label": "Image",
+      "description": "Type for image content",
+      "kind": "concrete",
+      "version": "1.0.0",
+      "final": false,
+      "singleton": false,
+      "inherits_from": [
+        "/ytypes/imedia/"
+      ],
+      "permalink": "https://yettagam.net/ytypes/image/1.0.0/image.ytype",
+      "latest": "https://yettagam.net/ytypes/image/latest.ytype"
+    },
+    {
+      "name": "imedia",
+      "label": "iMedia",
+      "description": "Abstract media type points to a single source path add imports from ibase",
+      "kind": "abstract",
+      "version": "1.0.0",
+      "final": false,
+      "singleton": false,
+      "inherits_from": [
+        "/ytypes/ibase/"
+      ],
+      "permalink": "https://yettagam.net/ytypes/imedia/1.0.0/imedia.ytype",
+      "latest": "https://yettagam.net/ytypes/imedia/latest.ytype"
+    },
+    {
+      "name": "list",
+      "label": "List",
+      "description": "list of yobj",
+      "kind": "concrete",
+      "version": "1.0.0",
+      "final": false,
+      "singleton": false,
+      "inherits_from": [
+        "/ytypes/base/"
+      ],
+      "permalink": "https://yettagam.net/ytypes/list/1.0.0/list.ytype",
+      "latest": "https://yettagam.net/ytypes/list/latest.ytype"
+    },
+    {
+      "name": "media",
+      "label": "Media",
+      "description": "Abstract media type points to a single source path",
+      "kind": "abstract",
+      "version": "1.0.0",
+      "final": false,
+      "singleton": false,
+      "inherits_from": [
+        "/ytypes/base/"
+      ],
+      "permalink": "https://yettagam.net/ytypes/media/1.0.0/media.ytype",
+      "latest": "https://yettagam.net/ytypes/media/latest.ytype"
+    },
+    {
+      "name": "platform_specific",
+      "label": "Platform Specific",
+      "description": "Base type for platform-specific URL archives (YouTube, Twitter, Instagram, etc.)",
+      "kind": "abstract",
+      "version": "1.0.0",
+      "final": false,
+      "singleton": false,
+      "inherits_from": [
+        "/ytypes/base/"
+      ],
+      "permalink": "https://yettagam.net/ytypes/platform_specific/1.0.0/platform_specific.ytype",
+      "latest": "https://yettagam.net/ytypes/platform_specific/latest.ytype"
+    },
+    {
+      "name": "url",
+      "label": "URL",
+      "description": "Type for archiving web URLs with comprehensive metadata",
+      "kind": "concrete",
+      "version": "1.0.0",
+      "final": false,
+      "singleton": false,
+      "inherits_from": [
+        "/ytypes/base/"
+      ],
+      "permalink": "https://yettagam.net/ytypes/url/1.0.0/url.ytype",
+      "latest": "https://yettagam.net/ytypes/url/latest.ytype"
+    },
+    {
+      "name": "venue",
+      "label": "Venue",
+      "description": "Type for venue content",
+      "kind": "concrete",
+      "version": "1.0.0",
+      "final": false,
+      "singleton": false,
+      "inherits_from": [
+        "/ytypes/base/"
+      ],
+      "permalink": "https://yettagam.net/ytypes/venue/1.0.0/venue.ytype",
+      "latest": "https://yettagam.net/ytypes/venue/latest.ytype"
+    },
+    {
+      "name": "video",
+      "label": "Video",
+      "description": "Type for video content",
+      "kind": "concrete",
+      "version": "1.0.0",
+      "final": false,
+      "singleton": false,
+      "inherits_from": [
+        "/ytypes/media/"
+      ],
+      "permalink": "https://yettagam.net/ytypes/video/1.0.0/video.ytype",
+      "latest": "https://yettagam.net/ytypes/video/latest.ytype"
+    },
+    {
+      "name": "vr_device",
+      "label": "VR Device",
+      "description": "Type for VR device content",
+      "kind": "concrete",
+      "version": "1.0.0",
+      "final": false,
+      "singleton": false,
+      "inherits_from": [
+        "/ytypes/base/"
+      ],
+      "permalink": "https://yettagam.net/ytypes/vr_device/1.0.0/vr_device.ytype",
+      "latest": "https://yettagam.net/ytypes/vr_device/latest.ytype"
+    },
+    {
+      "name": "x_tweet",
+      "label": "X Tweet",
+      "description": "X (Twitter) tweet archive with platform-specific metadata and downloaded media",
+      "kind": "concrete",
+      "version": "1.0.0",
+      "final": false,
+      "singleton": false,
+      "inherits_from": [
+        "/ytypes/platform_specific/"
+      ],
+      "permalink": "https://yettagam.net/ytypes/x_tweet/1.0.0/x_tweet.ytype",
+      "latest": "https://yettagam.net/ytypes/x_tweet/latest.ytype"
+    },
+    {
+      "name": "youtube_video",
+      "label": "YouTube Video",
+      "description": "YouTube video archive with platform-specific metadata and downloaded media",
+      "kind": "concrete",
+      "version": "1.0.0",
+      "final": false,
+      "singleton": false,
+      "inherits_from": [
+        "/ytypes/platform_specific/"
+      ],
+      "permalink": "https://yettagam.net/ytypes/youtube_video/1.0.0/youtube_video.ytype",
+      "latest": "https://yettagam.net/ytypes/youtube_video/latest.ytype"
+    }
+  ]
+}

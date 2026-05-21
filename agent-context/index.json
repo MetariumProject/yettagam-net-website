@@ -1,0 +1,27 @@
+{
+  "name": "yettagam",
+  "description": "yettagam is a digital safe storage box — a set of JSON schemas (yType) that can be instantiated into objects (yObj). part of the metarium.net ecosystem.",
+  "url": "https://yettagam.net",
+  "ecosystem": "metarium.net",
+  "maintained_by": {
+    "name": "onemai foundation",
+    "url": "https://onemai.net"
+  },
+  "author": {
+    "name": "metakovan",
+    "url": "https://metakovan.net"
+  },
+  "schemas": {
+    "meta_schema": "https://yettagam.net/ytype/1.0.0/schema.json",
+    "template": "https://yettagam.net/ytype_template/1.0.0/schema.json",
+    "types_index": "https://yettagam.net/ytypes/index.json",
+    "browse": "https://yettagam.net/schemas/",
+    "integration_guide": "https://yettagam.net/integration/"
+  },
+  "schema_linkage": {
+    "meta_schema_validates": "all .ytype type definitions",
+    "type_schema_section_validates": "yObj instances of that type",
+    "inherits_from_resolves_via": "/ytypes/{name}/ -> latest.ytype"
+  },
+  "quick_start": "to use yettagam schemas, reference the $schema permalink in your JSON objects. see https://yettagam.net/integration/ for the full guide."
+}

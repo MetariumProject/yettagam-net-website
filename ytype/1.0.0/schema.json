@@ -1,0 +1,109 @@
+{
+  "$schema": "https://yettagam.net/ytype/1.0.0/schema.json",
+  "$version": "1.0.0",
+  "$role": "type-definition",
+  "required": [
+    "name",
+    "label",
+    "description",
+    "kind",
+    "final",
+    "singleton",
+    "inherits_from",
+    "definition",
+    "schema"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "label": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9\\s_-]+$"
+    },
+    "description": {
+      "type": "string"
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "abstract",
+        "concrete"
+      ],
+      "default": "concrete"
+    },
+    "final": {
+      "type": "boolean",
+      "default": false
+    },
+    "singleton": {
+      "type": "boolean",
+      "default": false
+    },
+    "inherits_from": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^/ytypes/[a-z0-9_-]+(/([0-9]+\\.[0-9]+\\.[0-9]+)/[a-z0-9_-]+\\.ytype|/)$"
+      },
+      "uniqueItems": true
+    },
+    "schema": {
+      "type": "object",
+      "required": [
+        "type",
+        "properties"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "object"
+        },
+        "properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "required": [
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "string",
+                  "number",
+                  "integer",
+                  "boolean",
+                  "array",
+                  "object"
+                ]
+              },
+              "description": {
+                "type": "string"
+              },
+              "pattern": {
+                "type": "string"
+              },
+              "minimum": {
+                "type": "number"
+              },
+              "maximum": {
+                "type": "number"
+              },
+              "required": {
+                "type": "boolean"
+              },
+              "readOnly": {
+                "type": "boolean"
+              },
+              "x:autoAssign": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

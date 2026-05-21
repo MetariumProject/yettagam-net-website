@@ -1,0 +1,160 @@
+{
+  "$schema": "https://yettagam.net/ytype/1.0.0/schema.json",
+  "$version": "1.0.0",
+  "$role": "type-definition",
+  "name": "base",
+  "label": "Base",
+  "description": "Base type from which all types can inherit",
+  "kind": "abstract",
+  "final": false,
+  "singleton": false,
+  "inherits_from": [],
+  "definition": {
+    "typeInheritanceRules": {
+      "inheritance": {
+        "allowMultipleInheritance": true,
+        "enforceCyclePrevention": true,
+        "maxInheritanceDepth": 10,
+        "requireExplicitFinal": true
+      },
+      "compatibility": {
+        "abstractTypeRules": {
+          "allowAbstractParents": true,
+          "allowConcreteParents": false,
+          "canBeInstantiated": false
+        },
+        "concreteTypeRules": {
+          "allowAbstractParents": true,
+          "allowConcreteParents": true,
+          "canBeInstantiated": true
+        },
+        "singletonTypeRules": {
+          "inheritFromSingleton": false,
+          "allowMultipleChildren": true
+        }
+      },
+      "conflictResolution": {
+        "strategy": "priority",
+        "priorityOrder": [
+          "explicit",
+          "nearest",
+          "latest"
+        ],
+        "fieldResolution": {
+          "properties": "merge",
+          "constraints": "most-restrictive",
+          "defaults": "nearest-wins"
+        },
+        "onConflict": {
+          "action": "warn",
+          "provideResolutionHints": true,
+          "logResolutionPath": true
+        }
+      },
+      "validation": {
+        "validateInheritanceChain": true,
+        "checkTypeCompatibility": true,
+        "enforceAbstractRules": true,
+        "validateFieldOverrides": true,
+        "checks": [
+          "cycle-detection",
+          "depth-limit",
+          "final-type",
+          "abstract-rules",
+          "singleton-rules"
+        ]
+      },
+      "runtime": {
+        "cacheInheritanceChains": true,
+        "revalidateOnTypeChange": true,
+        "trackInheritanceChanges": true,
+        "propagateUpdates": true
+      }
+    }
+  },
+  "schema": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "description": "Name of the object (will be used in path)",
+        "x:pattern": "^[a-zA-Z0-9_-]+$",
+        "x:ui": {
+          "group": "Basic Information",
+          "widget": "text",
+          "order": 1,
+          "placeholder": "Enter object name",
+          "help": "Unique identifier for this object (alphanumeric, dash, underscore)"
+        }
+      },
+      "label": {
+        "type": "string",
+        "description": "Human-readable label for the object",
+        "x:ui": {
+          "group": "Basic Information",
+          "widget": "text",
+          "order": 2,
+          "placeholder": "Enter display name",
+          "help": "A readable name for displaying this object"
+        }
+      },
+      "description": {
+        "type": "string",
+        "description": "Description of the object",
+        "x:ui": {
+          "group": "Basic Information",
+          "widget": "textarea",
+          "order": 3,
+          "rows": 3,
+          "placeholder": "Describe this object..."
+        }
+      },
+      "uuid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Unique identifier for the object",
+        "x:ui": {
+          "group": "Basic Information",
+          "widget": "text",
+          "order": 4,
+          "placeholder": "Auto-generated UUID",
+          "help": "Unique identifier automatically generated for this object"
+        }
+      },
+      "graph": {
+        "type": "object",
+        "description": "Reference to the graph definition",
+        "x:ui": {
+          "group": "Relationships",
+          "widget": "object",
+          "order": 1,
+          "help": "Path reference to the graph definition for this object"
+        },
+        "properties": {
+          "ypath": {
+            "type": "string",
+            "description": "Path to the graph definition"
+          }
+        }
+      },
+      "ytype": {
+        "type": "string",
+        "description": "Virtual path to the type definition",
+        "readOnly": true
+      },
+      "ytype_label": {
+        "type": "string",
+        "description": "Label of the type",
+        "readOnly": true
+      }
+    },
+    "required": [
+      "ytype",
+      "ytype_label",
+      "name",
+      "label",
+      "description",
+      "uuid"
+    ]
+  }
+}
