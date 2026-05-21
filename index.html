@@ -88,25 +88,18 @@
 <pre>layer 1: yType meta-schema
   /ytype/1.0.0/schema.json
   defines what a valid type definition looks like
-  $schema references itself (self-validating)
         │
         ▼
 layer 2: yType definitions (17 types)
   /ytypes/{name}/{name}.ytype
   each validated by the meta-schema
   contains a "schema" section for validating instances
-  inherits_from resolves via /ytypes/{name}/
         │
         ▼
 layer 3: yObj instances
   validated by the type's schema section
   concrete data objects conforming to a yType</pre>
       </div>
-      <p>
-        the <code>$schema</code> linkage works as follows: the meta-schema self-references,
-        each <code>.ytype</code> file points to the meta-schema, and <code>inherits_from</code>
-        resolves via <code>/ytypes/{name}/</code>.
-      </p>
     </section>
 
     <!-- type hierarchy -->

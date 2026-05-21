@@ -166,7 +166,6 @@ img {
   font-size: 1.125rem;
   max-width: 560px;
   margin: 0 auto 0.5rem;
-  line-height: 1.7;
 }
 
 .hero-cta {
@@ -251,17 +250,14 @@ img {
   font-size: 1rem;
   max-width: 640px;
   margin-bottom: 1.5rem;
-  line-height: 1.7;
 }
 
 .section-intro {
   margin-bottom: 2rem;
-  line-height: 1.7;
 }
 
 .section p {
   margin-bottom: 0.75rem;
-  line-height: 1.7;
 }
 
 /* ==========================================================================
@@ -418,15 +414,6 @@ pre code {
    Content (prose styling for integration page)
    ========================================================================== */
 
-.content h2 {
-  color: var(--accent);
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin: 2.5rem 0 1rem;
-  padding-bottom: 0.4rem;
-  border-bottom: 1px solid var(--border);
-}
-
 .content h3 {
   color: #a0d2db;
   font-size: 1.1rem;
@@ -441,11 +428,6 @@ pre code {
   margin: 1rem 0 0.4rem;
 }
 
-.content p {
-  margin-bottom: 0.75rem;
-  line-height: 1.7;
-}
-
 .content ul, .content ol {
   padding-left: 1.5rem;
   margin-bottom: 1rem;
@@ -453,7 +435,6 @@ pre code {
 
 .content li {
   margin-bottom: 0.35rem;
-  line-height: 1.65;
 }
 
 /* ==========================================================================
@@ -654,33 +635,6 @@ td {
   min-width: 0;
 }
 
-.property-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 0.75rem 0 1.25rem;
-  font-size: 0.875rem;
-}
-
-.property-table th,
-.property-table td {
-  text-align: left;
-  padding: 0.6rem 0.75rem;
-  border: 1px solid var(--border);
-}
-
-.property-table th {
-  background: var(--bg-code);
-  color: var(--accent);
-  font-weight: 600;
-  font-size: 0.8125rem;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-}
-
-.property-table td {
-  background: var(--bg-card);
-}
-
 /* ==========================================================================
    Schema Browser — Predicate Groups
    ========================================================================== */
@@ -829,16 +783,6 @@ td {
 
 .tree-toggle {
   display: none;
-}
-
-/* ==========================================================================
-   Responsive — Tablet (>=640px)
-   ========================================================================== */
-
-@media (min-width: 640px) {
-  .card-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
 }
 
 /* ==========================================================================

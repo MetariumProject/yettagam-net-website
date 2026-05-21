@@ -232,16 +232,6 @@
         navigator.clipboard.writeText(text).then(function () {
           copyBtn.textContent = 'copied!';
           setTimeout(function () { copyBtn.textContent = 'copy'; }, 1500);
-        }).catch(function () {
-          // Fallback
-          var ta = document.createElement('textarea');
-          ta.value = text;
-          document.body.appendChild(ta);
-          ta.select();
-          document.execCommand('copy');
-          document.body.removeChild(ta);
-          copyBtn.textContent = 'copied!';
-          setTimeout(function () { copyBtn.textContent = 'copy'; }, 1500);
         });
       });
     }
@@ -326,7 +316,7 @@
     }
 
     var requiredArr = schema.required || [];
-    var html = '<table class="property-table">';
+    var html = '<table>';
     html += '<thead><tr><th>Name</th><th>Type</th><th>Description</th><th>Required</th><th>ReadOnly</th></tr></thead>';
     html += '<tbody>';
     html += renderPropertyRows(schema.properties, requiredArr, 0);

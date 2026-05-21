@@ -1,17 +1,15 @@
 runtime: python312
 
 handlers:
-  # Static CSS
+  # Static assets
   - url: /static/css
     static_dir: static/css
     expiration: "10m"
 
-  # Static JS
   - url: /static/js
     static_dir: static/js
     expiration: "10m"
 
-  # Logo assets
   - url: /static/logos
     static_dir: static/logos
     expiration: "1d"
@@ -42,7 +40,7 @@ handlers:
     http_headers:
       Access-Control-Allow-Origin: "*"
 
-  # Type schemas - versioned permalinks (immutable)
+  # Type schemas — versioned permalinks (immutable)
   - url: /ytypes/([a-z_]+)/([0-9.]+)/(.+)\.ytype
     static_files: ytypes/\1/\2/\3.ytype
     upload: ytypes/([a-z_]+)/([0-9.]+)/(.+)\.ytype
@@ -51,7 +49,7 @@ handlers:
     http_headers:
       Access-Control-Allow-Origin: "*"
 
-  # Type schemas - latest.ytype (mutable convenience copy)
+  # Type schemas — latest.ytype (mutable)
   - url: /ytypes/([a-z_]+)/latest\.ytype
     static_files: ytypes/\1/latest.ytype
     upload: ytypes/([a-z_]+)/latest\.ytype
@@ -60,8 +58,7 @@ handlers:
     http_headers:
       Access-Control-Allow-Origin: "*"
 
-  # Type directory alias - serves latest.ytype at /ytypes/{name}/
-  # This makes inherits_from references like "/ytypes/base/" resolvable
+  # Type directory alias — /ytypes/{name}/ resolves to latest.ytype
   - url: /ytypes/([a-z_]+)/?$
     static_files: ytypes/\1/latest.ytype
     upload: ytypes/([a-z_]+)/latest\.ytype
@@ -78,7 +75,7 @@ handlers:
     http_headers:
       Access-Control-Allow-Origin: "*"
 
-  # Sub-pages
+  # Pages
   - url: /schemas/?
     static_files: schemas/index.html
     upload: schemas/index\.html
@@ -87,7 +84,6 @@ handlers:
     static_files: integration/index.html
     upload: integration/index\.html
 
-  # Home page
   - url: /
     static_files: index.html
     upload: index\.html
