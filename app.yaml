@@ -92,8 +92,3 @@ handlers:
   - url: /.*
     script: auto
 
-error_handlers:
-  - error_code: over_quota
-    file: 404.html
-  - error_code: timeout
-    file: 404.html
