@@ -3,10 +3,197 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>yettagam</title>
+  <title>yettagam — digital safe storage</title>
+  <meta name="description" content="yettagam — a digital safe storage box. a set of JSON schemas (yType) that can be instantiated into objects (yObj).">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="yettagam — digital safe storage">
+  <meta property="og:url" content="https://yettagam.net/">
+  <meta property="og:site_name" content="yettagam">
   <link rel="icon" type="image/svg+xml" href="/static/logos/favicon.svg">
+  <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-  <h1>yettagam</h1>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="/" class="nav-brand">
+        <img class="nav-logo" src="/static/logos/favicon.svg" alt="yettagam" width="32" height="32">
+        <span>yettagam</span>
+      </a>
+      <button class="nav-toggle" aria-label="Menu">&#9776;</button>
+      <ul class="nav-links">
+        <li><a href="/schemas/">schemas</a></li>
+        <li><a href="/integration/">integration</a></li>
+        <li><a href="https://github.com/MetariumProject/yettagam-net-website" target="_blank" rel="noopener">GitHub</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+
+    <section class="hero">
+      <h1 class="hero-title">
+        <span class="hero-accent">yettagam</span>
+      </h1>
+      <p class="hero-subtitle">
+        a digital safe storage box. a set of JSON schemas — yType — that can be instantiated into objects — yObj. when saying yObj or yType, the y is silent.
+      </p>
+      <div class="hero-cta">
+        <a href="/schemas/" class="btn btn-primary">browse schemas</a>
+        <a href="/integration/" class="btn btn-secondary">integration guide</a>
+      </div>
+    </section>
+
+    <!-- for ai agents -->
+    <section class="section" id="for-ai-agents">
+      <h2 class="section-title">for ai agents</h2>
+      <div class="note">
+        <p>
+          agents can discover yettagam schemas via the machine-readable endpoint at
+          <a href="/agent-context/">/agent-context/</a>. this returns project metadata, schema URLs,
+          and integration guidance. for full details on how to work with yettagam types programmatically,
+          see the <a href="/integration/">integration guide</a>.
+        </p>
+      </div>
+    </section>
+
+    <!-- what is yettagam? -->
+    <section class="section">
+      <h2 class="section-title">what is yettagam?</h2>
+      <p>
+        yettagam is a coinage of "yettu" + "pettagam" — pettagam in tamil is "box" and yettu is a
+        reference to how all digits can be shown with that shape, like on a calculator display.
+      </p>
+      <p>
+        the name is used as a reference to a digital safe storage box.
+      </p>
+      <p>
+        yettagam offers a set of JSON schemas called yType (yettagam type). these can be instantiated
+        into yObj (yettagam objects). yType defines the structure; yObj is the data.
+      </p>
+      <p>
+        part of the <a href="https://metarium.net">metarium.net</a> ecosystem.
+      </p>
+    </section>
+
+    <!-- schema architecture -->
+    <section class="section">
+      <h2 class="section-title">schema architecture</h2>
+      <p>
+        yettagam uses a three-layer validation architecture. each layer references the one above it
+        through <code>$schema</code> linkage, creating a chain of trust from meta-schema down to
+        individual object instances.
+      </p>
+      <div class="diagram">
+<pre>layer 1: yType meta-schema
+  /ytype/1.0.0/schema.json
+  defines what a valid type definition looks like
+  $schema references itself (self-validating)
+        │
+        ▼
+layer 2: yType definitions (17 types)
+  /ytypes/{name}/{name}.ytype
+  each validated by the meta-schema
+  contains a "schema" section for validating instances
+  inherits_from resolves via /ytypes/{name}/
+        │
+        ▼
+layer 3: yObj instances
+  validated by the type's schema section
+  concrete data objects conforming to a yType</pre>
+      </div>
+      <p>
+        the <code>$schema</code> linkage works as follows: the meta-schema self-references,
+        each <code>.ytype</code> file points to the meta-schema, and <code>inherits_from</code>
+        resolves via <code>/ytypes/{name}/</code>.
+      </p>
+    </section>
+
+    <!-- type hierarchy -->
+    <section class="section">
+      <h2 class="section-title">type hierarchy</h2>
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-icon">🧱</div>
+          <h3>base types</h3>
+          <p>foundation types from which all others inherit</p>
+          <ul>
+            <li>base <em>(abstract)</em></li>
+            <li>ibase <em>(abstract)</em></li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-icon">🎬</div>
+          <h3>media types</h3>
+          <p>content and media object types</p>
+          <ul>
+            <li>media <em>(abstract)</em></li>
+            <li>imedia <em>(abstract)</em></li>
+            <li>audio</li>
+            <li>video</li>
+            <li>image</li>
+            <li>document</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-icon">🌐</div>
+          <h3>platform types</h3>
+          <p>platform-specific content types</p>
+          <ul>
+            <li>platform_specific <em>(abstract)</em></li>
+            <li>x_tweet</li>
+            <li>youtube_video</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-icon">🗄️</div>
+          <h3>data types</h3>
+          <p>structured data and reference types</p>
+          <ul>
+            <li>commit</li>
+            <li>exhibition</li>
+            <li>list</li>
+            <li>venue</li>
+            <li>vr_device</li>
+            <li>url</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- quick start -->
+    <section class="section">
+      <h2 class="section-title">quick start</h2>
+      <ol class="steps">
+        <li>
+          <strong>reference the schema</strong>
+          <pre><code>"$schema": "https://yettagam.net/ytype/1.0.0/schema.json"</code></pre>
+        </li>
+        <li>
+          <strong>browse available types</strong>
+          <p>explore the full <a href="/schemas/">type hierarchy</a> to find the type you need</p>
+        </li>
+        <li>
+          <strong>instantiate a yObj</strong>
+          <p>use any concrete type to create typed objects — validated against the type's schema section</p>
+        </li>
+      </ol>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>part of <a href="https://metarium.net">metarium.net</a></p>
+    <p>maintained by <a href="https://onemai.net">onemai foundation</a></p>
+    <p>author <a href="https://metakovan.net">metakovan</a></p>
+    <p>&copy; 2025 yettagam. all rights reserved.</p>
+  </footer>
+
+  <script>
+    document.querySelector('.nav-toggle').addEventListener('click', function () {
+      document.querySelector('.nav-links').classList.toggle('open');
+    });
+  </script>
+
 </body>
 </html>

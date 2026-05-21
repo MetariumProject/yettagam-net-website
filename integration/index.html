@@ -3,10 +3,425 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>integration - yettagam</title>
+  <title>integration guide — yettagam</title>
+  <meta name="description" content="integration guide for yettagam — how to reference, validate, and extend yType schemas and yObj instances.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="integration guide — yettagam">
+  <meta property="og:url" content="https://yettagam.net/integration/">
+  <meta property="og:site_name" content="yettagam">
   <link rel="icon" type="image/svg+xml" href="/static/logos/favicon.svg">
+  <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-  <h1>integration</h1>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="/" class="nav-brand">
+        <img class="nav-logo" src="/static/logos/favicon.svg" alt="yettagam" width="32" height="32">
+        <span>yettagam</span>
+      </a>
+      <button class="nav-toggle" aria-label="Menu">&#9776;</button>
+      <ul class="nav-links">
+        <li><a href="/schemas/">schemas</a></li>
+        <li><a href="/integration/">integration</a></li>
+        <li><a href="https://github.com/MetariumProject/yettagam-net-website" target="_blank" rel="noopener">GitHub</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+
+    <section class="hero">
+      <h1 class="hero-title">integration guide</h1>
+      <p class="hero-subtitle">
+        how to reference, validate, and extend yettagam schemas in your applications.
+      </p>
+    </section>
+
+    <!-- section 1: schema reference urls -->
+    <section class="section content">
+      <h2 class="section-title">schema reference urls</h2>
+      <p>
+        all yettagam schemas are served from <code>yettagam.net</code> as permanent, versioned URLs.
+        the following table lists every schema endpoint available.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>schema</th>
+            <th>url</th>
+            <th>description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>meta-schema</td>
+            <td><code><a href="https://yettagam.net/ytype/1.0.0/schema.json">https://yettagam.net/ytype/1.0.0/schema.json</a></code></td>
+            <td>defines what a valid yType looks like</td>
+          </tr>
+          <tr>
+            <td>yObj template</td>
+            <td><code><a href="https://yettagam.net/ytype_template/1.0.0/schema.json">https://yettagam.net/ytype_template/1.0.0/schema.json</a></code></td>
+            <td>template for yObj instances</td>
+          </tr>
+          <tr>
+            <td>types index</td>
+            <td><code><a href="https://yettagam.net/ytypes/index.json">https://yettagam.net/ytypes/index.json</a></code></td>
+            <td>manifest of all type definitions</td>
+          </tr>
+          <tr>
+            <td>audio</td>
+            <td><code><a href="https://yettagam.net/ytypes/audio/1.0.0/audio.ytype">https://yettagam.net/ytypes/audio/1.0.0/audio.ytype</a></code></td>
+            <td>type for audio content</td>
+          </tr>
+          <tr>
+            <td>base</td>
+            <td><code><a href="https://yettagam.net/ytypes/base/1.0.0/base.ytype">https://yettagam.net/ytypes/base/1.0.0/base.ytype</a></code></td>
+            <td>base type from which all types can inherit</td>
+          </tr>
+          <tr>
+            <td>commit</td>
+            <td><code><a href="https://yettagam.net/ytypes/commit/1.0.0/commit.ytype">https://yettagam.net/ytypes/commit/1.0.0/commit.ytype</a></code></td>
+            <td>cryptographically signed commit summary</td>
+          </tr>
+          <tr>
+            <td>document</td>
+            <td><code><a href="https://yettagam.net/ytypes/document/1.0.0/document.ytype">https://yettagam.net/ytypes/document/1.0.0/document.ytype</a></code></td>
+            <td>type for text-based content</td>
+          </tr>
+          <tr>
+            <td>exhibition</td>
+            <td><code><a href="https://yettagam.net/ytypes/exhibition/1.0.0/exhibition.ytype">https://yettagam.net/ytypes/exhibition/1.0.0/exhibition.ytype</a></code></td>
+            <td>type for exhibition content</td>
+          </tr>
+          <tr>
+            <td>ibase</td>
+            <td><code><a href="https://yettagam.net/ytypes/ibase/1.0.0/ibase.ytype">https://yettagam.net/ytypes/ibase/1.0.0/ibase.ytype</a></code></td>
+            <td>extends base to include a standard thumbnail image</td>
+          </tr>
+          <tr>
+            <td>image</td>
+            <td><code><a href="https://yettagam.net/ytypes/image/1.0.0/image.ytype">https://yettagam.net/ytypes/image/1.0.0/image.ytype</a></code></td>
+            <td>type for image content</td>
+          </tr>
+          <tr>
+            <td>imedia</td>
+            <td><code><a href="https://yettagam.net/ytypes/imedia/1.0.0/imedia.ytype">https://yettagam.net/ytypes/imedia/1.0.0/imedia.ytype</a></code></td>
+            <td>abstract media type with single source path, imports from ibase</td>
+          </tr>
+          <tr>
+            <td>list</td>
+            <td><code><a href="https://yettagam.net/ytypes/list/1.0.0/list.ytype">https://yettagam.net/ytypes/list/1.0.0/list.ytype</a></code></td>
+            <td>list of yObj references</td>
+          </tr>
+          <tr>
+            <td>media</td>
+            <td><code><a href="https://yettagam.net/ytypes/media/1.0.0/media.ytype">https://yettagam.net/ytypes/media/1.0.0/media.ytype</a></code></td>
+            <td>abstract media type with single source path</td>
+          </tr>
+          <tr>
+            <td>platform_specific</td>
+            <td><code><a href="https://yettagam.net/ytypes/platform_specific/1.0.0/platform_specific.ytype">https://yettagam.net/ytypes/platform_specific/1.0.0/platform_specific.ytype</a></code></td>
+            <td>base type for platform-specific URL archives</td>
+          </tr>
+          <tr>
+            <td>url</td>
+            <td><code><a href="https://yettagam.net/ytypes/url/1.0.0/url.ytype">https://yettagam.net/ytypes/url/1.0.0/url.ytype</a></code></td>
+            <td>type for archiving web URLs with metadata</td>
+          </tr>
+          <tr>
+            <td>venue</td>
+            <td><code><a href="https://yettagam.net/ytypes/venue/1.0.0/venue.ytype">https://yettagam.net/ytypes/venue/1.0.0/venue.ytype</a></code></td>
+            <td>type for venue content</td>
+          </tr>
+          <tr>
+            <td>video</td>
+            <td><code><a href="https://yettagam.net/ytypes/video/1.0.0/video.ytype">https://yettagam.net/ytypes/video/1.0.0/video.ytype</a></code></td>
+            <td>type for video content</td>
+          </tr>
+          <tr>
+            <td>vr_device</td>
+            <td><code><a href="https://yettagam.net/ytypes/vr_device/1.0.0/vr_device.ytype">https://yettagam.net/ytypes/vr_device/1.0.0/vr_device.ytype</a></code></td>
+            <td>type for VR device content</td>
+          </tr>
+          <tr>
+            <td>x_tweet</td>
+            <td><code><a href="https://yettagam.net/ytypes/x_tweet/1.0.0/x_tweet.ytype">https://yettagam.net/ytypes/x_tweet/1.0.0/x_tweet.ytype</a></code></td>
+            <td>x (twitter) tweet archive with platform-specific metadata</td>
+          </tr>
+          <tr>
+            <td>youtube_video</td>
+            <td><code><a href="https://yettagam.net/ytypes/youtube_video/1.0.0/youtube_video.ytype">https://yettagam.net/ytypes/youtube_video/1.0.0/youtube_video.ytype</a></code></td>
+            <td>youtube video archive with platform-specific metadata</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>url structure</h3>
+      <p>
+        every type definition follows a consistent url pattern:
+      </p>
+      <pre><code>https://yettagam.net/ytypes/{name}/{version}/{name}.ytype</code></pre>
+      <p>
+        each type also has a convenience url that always points to the latest version:
+      </p>
+      <pre><code>https://yettagam.net/ytypes/{name}/latest.ytype</code></pre>
+      <p>
+        versioned urls (e.g. <code>/ytypes/image/1.0.0/image.ytype</code>) are immutable permalinks — once published,
+        their content never changes. <code>latest.ytype</code> is a mutable convenience copy that updates
+        when a new version is released. the directory url <code>/ytypes/{name}/</code> is an alias
+        for <code>latest.ytype</code>, providing a clean, versionless reference for use in
+        <code>inherits_from</code> and <code>ytype</code> fields.
+      </p>
+    </section>
+
+    <!-- section 2: schema linkage -->
+    <section class="section content">
+      <h2 class="section-title">schema linkage</h2>
+      <p>
+        yettagam uses a three-layer validation chain. each layer references the one above it,
+        creating a chain of trust from meta-schema down to individual data objects.
+      </p>
+      <div class="diagram">
+<pre>yType meta-schema (/ytype/1.0.0/schema.json)
+  validates ↓
+yType definitions (.ytype files)
+  $schema → meta-schema
+  inherits_from → /ytypes/{parent}/
+  schema section validates ↓
+yObj instances (actual data objects)</pre>
+      </div>
+      <p>
+        the meta-schema defines what fields a valid yType must have — name, kind, schema, and so on.
+        each <code>.ytype</code> file references the meta-schema via its <code>$schema</code> field,
+        declaring itself as a conforming type definition. the <code>schema</code> section within each
+        <code>.ytype</code> defines what instances (yObj) of that type look like — their required
+        properties, types, and constraints. the <code>inherits_from</code> array references parent
+        types via <code>/ytypes/{name}/</code>, which resolves to the latest version of that type.
+      </p>
+    </section>
+
+    <!-- section 3: using $schema references -->
+    <section class="section content">
+      <h2 class="section-title">using $schema references</h2>
+
+      <h3>creating a yType definition</h3>
+      <p>
+        to define a new type, create a <code>.ytype</code> file that references the meta-schema.
+        the <code>$schema</code> field tells validators which meta-schema governs this definition.
+        the <code>schema</code> section defines what instances of your type look like.
+      </p>
+<pre><code>{
+  "$schema": "https://yettagam.net/ytype/1.0.0/schema.json",
+  "$version": "1.0.0",
+  "$role": "type-definition",
+  "name": "my-custom-type",
+  "label": "My Custom Type",
+  "description": "a custom type for my application",
+  "kind": "concrete",
+  "final": false,
+  "singleton": false,
+  "inherits_from": ["/ytypes/base/"],
+  "definition": {},
+  "schema": {
+    "type": "object",
+    "properties": {
+      "custom_field": {
+        "type": "string",
+        "description": "a custom field for this type"
+      }
+    },
+    "required": ["custom_field"]
+  }
+}</code></pre>
+
+      <h3>creating a yObj instance</h3>
+      <p>
+        a yObj is a concrete data object that conforms to a yType. reference the type via
+        <code>ytype</code> using the directory url, which resolves to the latest version.
+      </p>
+<pre><code>{
+  "ytype": "/ytypes/image/",
+  "ytype_label": "Image",
+  "name": "my-photo",
+  "label": "My Photo",
+  "description": "a photograph",
+  "graph": []
+}</code></pre>
+    </section>
+
+    <!-- section 4: validating against yType -->
+    <section class="section content">
+      <h2 class="section-title">validating against yType</h2>
+      <p>
+        the <code>schema</code> section of each yType is a standard JSON schema. you can fetch the
+        type definition at runtime and validate your yObj instances against it using any
+        JSON schema validator.
+      </p>
+
+      <h3>python</h3>
+<pre><code>import json, urllib.request
+
+# fetch the type definition
+type_url = "https://yettagam.net/ytypes/image/latest.ytype"
+type_def = json.loads(urllib.request.urlopen(type_url).read())
+
+# the schema section defines what instances look like
+instance_schema = type_def["schema"]
+
+# validate your yObj instance against it
+import jsonschema
+my_obj = {"name": "my-photo", "label": "My Photo", "description": "a photograph"}
+jsonschema.validate(my_obj, instance_schema)</code></pre>
+
+      <h3>javascript</h3>
+<pre><code>const res = await fetch("https://yettagam.net/ytypes/image/latest.ytype");
+const typeDef = await res.json();
+const instanceSchema = typeDef.schema;
+// use ajv or similar to validate your yObj against instanceSchema</code></pre>
+    </section>
+
+    <!-- section 5: type inheritance -->
+    <section class="section content">
+      <h2 class="section-title">type inheritance</h2>
+      <p>
+        types reference parent types via the <code>inherits_from</code> array. each entry is a
+        directory url like <code>/ytypes/{name}/</code> that resolves to the latest version of
+        the parent type. this creates a hierarchy of shared properties and constraints.
+      </p>
+      <div class="diagram">
+<pre>base (abstract)
+  +-- ibase (abstract)
+  |   +-- imedia (abstract)
+  |       +-- image
+  +-- media (abstract)
+  |   +-- audio
+  |   +-- video
+  |   +-- document
+  +-- commit
+  +-- exhibition
+  +-- list
+  +-- venue
+  +-- vr_device
+  +-- url
+  +-- platform_specific (abstract)
+      +-- x_tweet
+      +-- youtube_video</pre>
+      </div>
+      <p>
+        property resolution works by merging parent <code>schema.properties</code> with child
+        <code>schema.properties</code>. when a child type defines a property that also exists
+        in the parent, the child definition overrides the parent on conflict. this allows
+        concrete types to specialize inherited fields while preserving the base structure.
+      </p>
+    </section>
+
+    <!-- section 6: MCP integration -->
+    <section class="section content">
+      <h2 class="section-title">MCP integration</h2>
+      <p>
+        the model context protocol (MCP) is a standard for AI agents to discover and interact
+        with tools and data sources. yettagam schemas are designed to be machine-readable,
+        enabling AI agents to discover schema definitions, understand data structures, and
+        validate objects using yettagam types.
+      </p>
+
+      <h3>agent context endpoint</h3>
+      <p>
+        a machine-readable project context is available at:
+      </p>
+<pre><code>GET https://yettagam.net/agent-context/</code></pre>
+      <p>
+        this returns structured metadata about the project, available schemas, and integration
+        guidance — everything an AI agent needs to begin working with yettagam types.
+      </p>
+
+      <h3>example MCP tool definitions</h3>
+      <p>
+        the following tool definitions show how an MCP-compatible agent can interact with yettagam:
+      </p>
+<pre><code>{
+  "name": "yettagam_list_types",
+  "description": "list all available yettagam type definitions",
+  "inputSchema": {},
+  "endpoint": "https://yettagam.net/ytypes/index.json"
+}</code></pre>
+<pre><code>{
+  "name": "yettagam_get_type",
+  "description": "get the full schema definition for a yettagam type",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "type_name": { "type": "string", "description": "name of the type" }
+    },
+    "required": ["type_name"]
+  },
+  "endpoint": "https://yettagam.net/ytypes/{type_name}/latest.ytype"
+}</code></pre>
+
+      <h3>why structured schemas matter for AI</h3>
+      <p>
+        consistent data formats enable reliable data exchange between agents and systems.
+        type safety prevents errors at the boundary between machine-generated and human-curated
+        data. semantic relationships expressed through predicate groups enable knowledge graph
+        construction — allowing agents to reason about the connections between objects, not
+        just their individual properties.
+      </p>
+    </section>
+
+    <!-- section 7: contributing new types -->
+    <section class="section content">
+      <h2 class="section-title">contributing new types</h2>
+      <p>
+        yettagam is an open schema ecosystem. new types can be contributed by anyone
+        following these steps:
+      </p>
+      <ol class="steps">
+        <li>
+          <strong>create a .ytype file</strong>
+          <p>
+            author a new type definition following the meta-schema at
+            <a href="https://yettagam.net/ytype/1.0.0/schema.json">https://yettagam.net/ytype/1.0.0/schema.json</a>.
+            validate your file against the meta-schema before submitting.
+          </p>
+        </li>
+        <li>
+          <strong>include all required fields</strong>
+          <p>
+            every yType definition must include these top-level fields:
+            <code>$schema</code>, <code>$version</code>, <code>$role</code>,
+            <code>name</code>, <code>label</code>, <code>description</code>,
+            <code>kind</code>, <code>final</code>, <code>singleton</code>,
+            <code>inherits_from</code>, <code>definition</code>, and <code>schema</code>.
+          </p>
+        </li>
+        <li>
+          <strong>submit a pull request</strong>
+          <p>
+            open a pull request to
+            <a href="https://github.com/MetariumProject/yettagam-net-website" target="_blank" rel="noopener">https://github.com/MetariumProject/yettagam-net-website</a>
+            adding your file to <code>ytypes/{name}/1.0.0/{name}.ytype</code> and updating
+            <code>ytypes/index.json</code> with the new type entry.
+          </p>
+        </li>
+      </ol>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>part of <a href="https://metarium.net">metarium.net</a></p>
+    <p>maintained by <a href="https://onemai.net">onemai foundation</a></p>
+    <p>author <a href="https://metakovan.net">metakovan</a></p>
+    <p>&copy; 2025 yettagam. all rights reserved.</p>
+  </footer>
+
+  <script>
+    document.querySelector('.nav-toggle').addEventListener('click', function () {
+      document.querySelector('.nav-links').classList.toggle('open');
+    });
+  </script>
+
 </body>
 </html>

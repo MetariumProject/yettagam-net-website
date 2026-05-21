@@ -3,12 +3,48 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>404 - yettagam</title>
+  <title>404 — page not found | yettagam</title>
+  <meta name="description" content="this page does not exist.">
   <link rel="icon" type="image/svg+xml" href="/static/logos/favicon.svg">
+  <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-  <h1>404</h1>
-  <p>page not found</p>
-  <a href="/">back to yettagam</a>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="/" class="nav-brand">
+        <img class="nav-logo" src="/static/logos/favicon.svg" alt="yettagam" width="32" height="32">
+        <span>yettagam</span>
+      </a>
+      <button class="nav-toggle" aria-label="Menu">&#9776;</button>
+      <ul class="nav-links">
+        <li><a href="/schemas/">schemas</a></li>
+        <li><a href="/integration/">integration</a></li>
+        <li><a href="https://github.com/MetariumProject/yettagam-net-website" target="_blank" rel="noopener">GitHub</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <div class="error-page">
+      <div class="error-code">404</div>
+      <p class="error-message">this page does not exist</p>
+      <a href="/" class="btn btn-secondary">go back home</a>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>part of <a href="https://metarium.net">metarium.net</a></p>
+    <p>maintained by <a href="https://onemai.net">onemai foundation</a></p>
+    <p>author <a href="https://metakovan.net">metakovan</a></p>
+    <p>&copy; 2025 yettagam. all rights reserved.</p>
+  </footer>
+
+  <script>
+    document.querySelector('.nav-toggle').addEventListener('click', function () {
+      document.querySelector('.nav-links').classList.toggle('open');
+    });
+  </script>
+
 </body>
 </html>
