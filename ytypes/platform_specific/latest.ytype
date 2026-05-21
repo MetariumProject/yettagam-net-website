@@ -1,0 +1,546 @@
+{
+  "$schema": "https://yettagam.net/ytype/1.0.0/schema.json",
+  "$version": "1.0.0",
+  "$role": "type-definition",
+  "name": "platform_specific",
+  "label": "Platform Specific",
+  "description": "Base type for platform-specific URL archives (YouTube, Twitter, Instagram, etc.)",
+  "kind": "abstract",
+  "final": false,
+  "singleton": false,
+  "inherits_from": [
+    "/ytypes/base/"
+  ],
+  "definition": {
+    "logic": {
+      "validation": {
+        "enableSymmetryChecks": true,
+        "enableTransitiveChecks": true,
+        "enableInverseValidation": true,
+        "enforcePredicateRules": true
+      },
+      "inference": {
+        "enableTransitiveInference": true,
+        "enableSymmetricInference": true,
+        "enableInverseInference": true,
+        "maxInferenceDepth": 5
+      },
+      "constraints": {
+        "preventCircularRelations": true,
+        "preventSelfRelations": false,
+        "allowMultiplePredicates": true,
+        "validateTypeCompatibility": true
+      },
+      "runtime": {
+        "autoGenerateInverses": true,
+        "cascadeDeletes": false,
+        "trackProvenance": true,
+        "maintainConsistency": true
+      },
+      "predicateFormat": {
+        "pattern": "^[a-z]+:[a-zA-Z][a-zA-Z0-9]*$",
+        "enforceNamespaces": true,
+        "namespaceRules": {
+          "allowedNamespaces": [
+            "owl",
+            "rdfs",
+            "skos",
+            "cause",
+            "intent",
+            "axiom",
+            "spatial",
+            "temporal",
+            "part",
+            "rel"
+          ],
+          "validatePredicateNames": true,
+          "caseSensitive": false,
+          "allowCustomNamespaces": false
+        },
+        "formatting": {
+          "namespaceCase": "lowercase",
+          "predicateCase": "camelCase",
+          "separatorChar": ":",
+          "normalizeSpaces": true
+        }
+      },
+      "typeInheritanceRules": {
+        "inheritance": {
+          "allowMultipleInheritance": true,
+          "enforceCyclePrevention": true,
+          "maxInheritanceDepth": 10,
+          "requireExplicitFinal": true
+        },
+        "compatibility": {
+          "abstractTypeRules": {
+            "allowAbstractParents": true,
+            "allowConcreteParents": false,
+            "canBeInstantiated": false
+          },
+          "concreteTypeRules": {
+            "allowAbstractParents": true,
+            "allowConcreteParents": true,
+            "canBeInstantiated": true
+          },
+          "singletonTypeRules": {
+            "inheritFromSingleton": false,
+            "allowMultipleChildren": true
+          }
+        },
+        "conflictResolution": {
+          "strategy": "priority",
+          "priorityOrder": [
+            "explicit",
+            "nearest",
+            "latest"
+          ],
+          "fieldResolution": {
+            "properties": "merge",
+            "constraints": "most-restrictive",
+            "defaults": "nearest-wins"
+          },
+          "onConflict": {
+            "action": "warn",
+            "provideResolutionHints": true,
+            "logResolutionPath": true
+          }
+        },
+        "validation": {
+          "validateInheritanceChain": true,
+          "checkTypeCompatibility": true,
+          "enforceAbstractRules": true,
+          "validateFieldOverrides": true,
+          "checks": [
+            "cycle-detection",
+            "depth-limit",
+            "final-type",
+            "abstract-rules",
+            "singleton-rules"
+          ]
+        },
+        "runtime": {
+          "cacheInheritanceChains": true,
+          "revalidateOnTypeChange": true,
+          "trackInheritanceChanges": true,
+          "propagateUpdates": true
+        }
+      },
+      "predicateGroups": {
+        "rel": {
+          "label": "Relationships",
+          "description": "General relationship types",
+          "predicates": {
+            "hasPart": {
+              "description": "Has a part or component",
+              "inverse": "partOf"
+            },
+            "partOf": {
+              "description": "Is a part of",
+              "inverse": "hasPart"
+            },
+            "sourceOf": {
+              "description": "Is the source of",
+              "inverse": "derivedFrom"
+            },
+            "derivedFrom": {
+              "description": "Derived from",
+              "inverse": "sourceOf"
+            }
+          }
+        }
+      }
+    }
+  },
+  "schema": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "description": "Name of the object (will be used in path)",
+        "x:pattern": "^[a-zA-Z0-9_-]+$",
+        "x:ui": {
+          "group": "Basic Information",
+          "widget": "text",
+          "order": 1,
+          "placeholder": "Enter object name",
+          "help": "Unique identifier for this object (alphanumeric, dash, underscore)"
+        }
+      },
+      "label": {
+        "type": "string",
+        "description": "Human-readable label for the object",
+        "x:ui": {
+          "group": "Basic Information",
+          "widget": "text",
+          "order": 2,
+          "placeholder": "Enter display name",
+          "help": "A readable name for displaying this object"
+        }
+      },
+      "description": {
+        "type": "string",
+        "description": "Description of the object",
+        "x:ui": {
+          "group": "Basic Information",
+          "widget": "textarea",
+          "order": 3,
+          "rows": 3,
+          "placeholder": "Describe this object..."
+        }
+      },
+      "uuid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Unique identifier for the object",
+        "x:ui": {
+          "group": "Basic Information",
+          "widget": "text",
+          "order": 4,
+          "placeholder": "Auto-generated UUID",
+          "help": "Unique identifier automatically generated for this object"
+        }
+      },
+      "source_url": {
+        "type": "string",
+        "format": "uri",
+        "description": "Original URL that this platform-specific archive represents",
+        "x:ui": {
+          "group": "Source Information",
+          "widget": "text",
+          "order": 1,
+          "placeholder": "https://example.com",
+          "help": "The original URL that was archived"
+        }
+      },
+      "platform": {
+        "type": "string",
+        "description": "Platform identifier (youtube, twitter, instagram, reddit, etc.)",
+        "x:ui": {
+          "group": "Source Information",
+          "widget": "text",
+          "order": 2,
+          "placeholder": "youtube",
+          "help": "Platform identifier"
+        }
+      },
+      "platform_content_id": {
+        "type": "string",
+        "description": "Platform-specific content ID (e.g., YouTube video ID, Twitter tweet ID)",
+        "x:ui": {
+          "group": "Source Information",
+          "widget": "text",
+          "order": 3,
+          "placeholder": "dQw4w9WgXcQ",
+          "help": "Unique identifier for this content on the platform"
+        }
+      },
+      "archived_at": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Timestamp when the platform content was archived",
+        "x:ui": {
+          "group": "Archive Information",
+          "widget": "datetime",
+          "order": 1,
+          "help": "When this platform content was archived"
+        }
+      },
+      "post_processing_required": {
+        "type": "boolean",
+        "description": "Whether this yobj requires post-processing",
+        "default": true,
+        "x:ui": {
+          "group": "Post-Processing",
+          "widget": "checkbox",
+          "order": 1,
+          "readOnly": true,
+          "help": "Indicates if this platform-specific content requires post-processing"
+        }
+      },
+      "post_processing_type": {
+        "type": "string",
+        "description": "Type of post-processing required",
+        "default": "platform_archive",
+        "x:ui": {
+          "group": "Post-Processing",
+          "widget": "text",
+          "order": 2,
+          "readOnly": true,
+          "help": "Type of post-processing (e.g., platform_archive, download_youtube_video)"
+        }
+      },
+      "post_processing_status": {
+        "type": "string",
+        "enum": [
+          "pending",
+          "success",
+          "failed"
+        ],
+        "description": "Status of the post-processing",
+        "default": "pending",
+        "x:ui": {
+          "group": "Post-Processing",
+          "widget": "select",
+          "order": 3,
+          "readOnly": true,
+          "placeholder": "Select status",
+          "help": "Current status: pending, success, or failed"
+        }
+      },
+      "post_processing_retries": {
+        "type": "integer",
+        "description": "Number of times post-processing has been retried",
+        "default": 0,
+        "minimum": 0,
+        "x:ui": {
+          "group": "Post-Processing",
+          "widget": "number",
+          "order": 4,
+          "readOnly": true,
+          "help": "Number of retry attempts"
+        }
+      },
+      "post_processing_results": {
+        "type": "object",
+        "description": "Results and artifacts from post-processing",
+        "additionalProperties": true,
+        "x:ui": {
+          "group": "Post-Processing",
+          "widget": "json-editor",
+          "order": 5,
+          "readOnly": true,
+          "help": "Post-processing results (downloaded media paths, metadata, etc.)"
+        },
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Error message if post-processing failed"
+          },
+          "processed_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when post-processing completed"
+          }
+        }
+      },
+      "post_processing_comments": {
+        "type": "string",
+        "description": "Human comments/notes about post-processing (e.g., why it failed, manual intervention notes)",
+        "x:ui": {
+          "group": "Post-Processing",
+          "widget": "textarea",
+          "order": 6,
+          "rows": 3,
+          "placeholder": "Add comments about post-processing...",
+          "help": "Notes about post-processing (can be added by human agent)"
+        }
+      },
+      "media_yobj_list": {
+        "type": "array",
+        "description": "List of media yobjs (videos, images, audio, etc.) associated with this platform content",
+        "x:ui": {
+          "group": "Media",
+          "widget": "array",
+          "order": 1,
+          "help": "Media objects extracted from this platform content"
+        },
+        "items": {
+          "type": "object",
+          "properties": {
+            "ytype": {
+              "type": "string",
+              "description": "Type of media yobj",
+              "readOnly": true,
+              "x:ui": {
+                "widget": "text",
+                "order": 1
+              }
+            },
+            "ytype_label": {
+              "type": "string",
+              "description": "Label of media yobj type",
+              "readOnly": true,
+              "x:ui": {
+                "widget": "text",
+                "order": 2
+              }
+            },
+            "yobj": {
+              "type": "string",
+              "description": "VFS path to media yobj",
+              "readOnly": true,
+              "x:ui": {
+                "widget": "text",
+                "order": 3
+              }
+            },
+            "yobj_label": {
+              "type": "string",
+              "description": "Label of media yobj",
+              "readOnly": true,
+              "x:ui": {
+                "widget": "text",
+                "order": 4
+              }
+            },
+            "size": {
+              "type": "integer",
+              "description": "Size of media file in bytes",
+              "minimum": 0,
+              "x:ui": {
+                "widget": "number",
+                "order": 5,
+                "help": "File size in bytes"
+              }
+            },
+            "quality": {
+              "type": "string",
+              "description": "Quality identifier (e.g., 'high', 'low', '1080p', '720p')",
+              "x:ui": {
+                "widget": "text",
+                "order": 6,
+                "placeholder": "high",
+                "help": "Quality level or resolution"
+              }
+            },
+            "format": {
+              "type": "string",
+              "description": "Media format (e.g., 'mp4', 'webm', 'jpg', 'png')",
+              "x:ui": {
+                "widget": "text",
+                "order": 7,
+                "placeholder": "mp4",
+                "help": "File format/extension"
+              }
+            }
+          },
+          "required": [
+            "ytype",
+            "yobj"
+          ]
+        }
+      },
+      "platform_metadata": {
+        "type": "object",
+        "description": "Additional platform-specific metadata (flexible JSON structure)",
+        "additionalProperties": true,
+        "x:ui": {
+          "group": "Platform Information",
+          "widget": "json-editor",
+          "order": 1,
+          "help": "Platform-specific metadata that doesn't have dedicated fields"
+        }
+      },
+      "graph": {
+        "type": "array",
+        "description": "List of semantic connections to other objects (RDF-like triples)",
+        "x:ui": {
+          "group": "Relationships",
+          "widget": "relationship-editor",
+          "order": 1,
+          "addLabel": "Add Relationship",
+          "help": "Define semantic relationships with other objects",
+          "predicateGroups": "x:predicateGroups"
+        },
+        "items": {
+          "type": "object",
+          "properties": {
+            "predicate": {
+              "type": "string",
+              "description": "The relationship type",
+              "x:pattern": "^[a-zA-Z]+:[a-zA-Z]+$",
+              "x:ui": {
+                "widget": "predicate-selector",
+                "order": 1,
+                "groupByNamespace": true,
+                "usePredicateGroups": true,
+                "showPredicateProperties": true,
+                "validateConstraints": true
+              }
+            },
+            "inverse": {
+              "type": "string",
+              "description": "The inverse predicate (if applicable)",
+              "x:enum": [
+                "rel:hasPart",
+                "rel:partOf",
+                "rel:sourceOf",
+                "rel:derivedFrom"
+              ],
+              "x:ui": {
+                "widget": "select",
+                "order": 2,
+                "placeholder": "Select inverse relationship (optional)"
+              }
+            },
+            "ytype": {
+              "type": "string",
+              "description": "Type of the object in this triple",
+              "readOnly": true,
+              "x:ui": {
+                "widget": "type-selector",
+                "order": 3
+              }
+            },
+            "ytype_label": {
+              "type": "string",
+              "description": "Label of the object's type",
+              "readOnly": true,
+              "x:ui": {
+                "widget": "text",
+                "order": 4
+              }
+            },
+            "yobj": {
+              "type": "string",
+              "description": "VFS path to the related object",
+              "x:ui": {
+                "widget": "object-selector",
+                "order": 5
+              }
+            },
+            "yobj_label": {
+              "type": "string",
+              "description": "Label of the related object",
+              "readOnly": true,
+              "x:ui": {
+                "widget": "text",
+                "order": 6
+              }
+            }
+          }
+        }
+      },
+      "ytype": {
+        "type": "string",
+        "description": "Virtual path to the type definition",
+        "readOnly": true
+      },
+      "ytype_label": {
+        "type": "string",
+        "description": "Label of the type",
+        "readOnly": true
+      }
+    },
+    "required": [
+      "name",
+      "label",
+      "description",
+      "uuid",
+      "source_url",
+      "platform",
+      "platform_content_id",
+      "archived_at",
+      "post_processing_required",
+      "post_processing_type",
+      "post_processing_status",
+      "post_processing_retries",
+      "post_processing_results",
+      "post_processing_comments",
+      "media_yobj_list",
+      "graph",
+      "ytype",
+      "ytype_label"
+    ]
+  }
+}

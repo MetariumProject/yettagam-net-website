@@ -1,0 +1,973 @@
+{
+  "$schema": "https://yettagam.net/ytype/1.0.0/schema.json",
+  "$version": "1.0.0",
+  "$role": "type-definition",
+  "name": "url",
+  "label": "URL",
+  "description": "Type for archiving web URLs with comprehensive metadata",
+  "kind": "concrete",
+  "final": false,
+  "singleton": false,
+  "inherits_from": [
+    "/ytypes/base/"
+  ],
+  "definition": {
+    "logic": {
+      "validation": {
+        "enableSymmetryChecks": true,
+        "enableTransitiveChecks": true,
+        "enableInverseValidation": true,
+        "enforcePredicateRules": true
+      },
+      "inference": {
+        "enableTransitiveInference": true,
+        "enableSymmetricInference": true,
+        "enableInverseInference": true,
+        "maxInferenceDepth": 5
+      },
+      "constraints": {
+        "preventCircularRelations": true,
+        "preventSelfRelations": false,
+        "allowMultiplePredicates": true,
+        "validateTypeCompatibility": true
+      },
+      "runtime": {
+        "autoGenerateInverses": true,
+        "cascadeDeletes": false,
+        "trackProvenance": true,
+        "maintainConsistency": true
+      },
+      "predicateFormat": {
+        "pattern": "^[a-z]+:[a-zA-Z][a-zA-Z0-9]*$",
+        "enforceNamespaces": true,
+        "namespaceRules": {
+          "allowedNamespaces": [
+            "owl",
+            "rdfs",
+            "skos",
+            "cause",
+            "intent",
+            "axiom",
+            "spatial",
+            "temporal",
+            "part",
+            "rel"
+          ],
+          "validatePredicateNames": true,
+          "caseSensitive": false,
+          "allowCustomNamespaces": false
+        },
+        "formatting": {
+          "namespaceCase": "lowercase",
+          "predicateCase": "camelCase",
+          "separatorChar": ":",
+          "normalizeSpaces": true
+        }
+      },
+      "typeInheritanceRules": {
+        "inheritance": {
+          "allowMultipleInheritance": true,
+          "enforceCyclePrevention": true,
+          "maxInheritanceDepth": 10,
+          "requireExplicitFinal": true
+        },
+        "compatibility": {
+          "abstractTypeRules": {
+            "allowAbstractParents": true,
+            "allowConcreteParents": false,
+            "canBeInstantiated": false
+          },
+          "concreteTypeRules": {
+            "allowAbstractParents": true,
+            "allowConcreteParents": true,
+            "canBeInstantiated": true
+          },
+          "singletonTypeRules": {
+            "inheritFromSingleton": false,
+            "allowMultipleChildren": true
+          }
+        },
+        "conflictResolution": {
+          "strategy": "priority",
+          "priorityOrder": [
+            "explicit",
+            "nearest",
+            "latest"
+          ],
+          "fieldResolution": {
+            "properties": "merge",
+            "constraints": "most-restrictive",
+            "defaults": "nearest-wins"
+          },
+          "onConflict": {
+            "action": "warn",
+            "provideResolutionHints": true,
+            "logResolutionPath": true
+          }
+        },
+        "validation": {
+          "validateInheritanceChain": true,
+          "checkTypeCompatibility": true,
+          "enforceAbstractRules": true,
+          "validateFieldOverrides": true,
+          "checks": [
+            "cycle-detection",
+            "depth-limit",
+            "final-type",
+            "abstract-rules",
+            "singleton-rules"
+          ]
+        },
+        "runtime": {
+          "cacheInheritanceChains": true,
+          "revalidateOnTypeChange": true,
+          "trackInheritanceChanges": true,
+          "propagateUpdates": true
+        }
+      },
+      "predicateGroups": {
+        "rdfs": {
+          "label": "RDFS",
+          "description": "RDF Schema relationships",
+          "predicates": {
+            "subClassOf": {
+              "description": "Type hierarchy relationship"
+            },
+            "seeAlso": {
+              "description": "Related resource",
+              "symmetric": true
+            },
+            "isDefinedBy": {
+              "description": "Definition source"
+            }
+          }
+        },
+        "skos": {
+          "label": "SKOS",
+          "description": "Simple Knowledge Organization System",
+          "predicates": {
+            "broader": {
+              "description": "Broader concept",
+              "inverse": "narrower"
+            },
+            "narrower": {
+              "description": "Narrower concept",
+              "inverse": "broader"
+            },
+            "related": {
+              "description": "Related concept",
+              "symmetric": true
+            },
+            "exactMatch": {
+              "description": "Exact match",
+              "symmetric": true
+            },
+            "closeMatch": {
+              "description": "Close match",
+              "symmetric": true
+            }
+          }
+        },
+        "rel": {
+          "label": "Relationships",
+          "description": "General relationship types",
+          "predicates": {
+            "relatedTo": {
+              "description": "General relationship",
+              "symmetric": true
+            },
+            "references": {
+              "description": "References another resource"
+            },
+            "referencedBy": {
+              "description": "Referenced by another resource",
+              "inverse": "references"
+            },
+            "linksTo": {
+              "description": "Links to another URL",
+              "inverse": "linkedFrom"
+            },
+            "linkedFrom": {
+              "description": "Linked from another URL",
+              "inverse": "linksTo"
+            },
+            "dependsOn": {
+              "description": "Requires for existence or function"
+            },
+            "influences": {
+              "description": "Has an effect on"
+            }
+          }
+        },
+        "temporal": {
+          "label": "Temporal",
+          "description": "Time-based relationships",
+          "predicates": {
+            "before": {
+              "description": "Occurs before",
+              "inverse": "after"
+            },
+            "after": {
+              "description": "Occurs after",
+              "inverse": "before"
+            },
+            "versionOf": {
+              "description": "Is a version of",
+              "inverse": "hasVersion"
+            },
+            "hasVersion": {
+              "description": "Has a version",
+              "inverse": "versionOf"
+            }
+          }
+        }
+      }
+    }
+  },
+  "schema": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "description": "Name of the URL archive (will be used in path)",
+        "x:pattern": "^[a-zA-Z0-9_-]+$",
+        "x:ui": {
+          "group": "Basic Information",
+          "widget": "text",
+          "order": 1,
+          "placeholder": "Enter archive name",
+          "help": "Unique identifier for this URL archive (alphanumeric, dash, underscore)"
+        }
+      },
+      "label": {
+        "type": "string",
+        "description": "Human-readable label for the URL archive",
+        "x:ui": {
+          "group": "Basic Information",
+          "widget": "text",
+          "order": 2,
+          "placeholder": "Enter display name",
+          "help": "A readable name for displaying this URL archive"
+        }
+      },
+      "description": {
+        "type": "string",
+        "description": "Description of the URL archive",
+        "x:ui": {
+          "group": "Basic Information",
+          "widget": "textarea",
+          "order": 3,
+          "rows": 3,
+          "placeholder": "Describe this URL archive..."
+        }
+      },
+      "url": {
+        "type": "string",
+        "format": "uri",
+        "description": "The original URL that was archived",
+        "x:ui": {
+          "group": "URL Information",
+          "widget": "text",
+          "order": 1,
+          "placeholder": "https://example.com/page",
+          "help": "The complete URL that was archived"
+        }
+      },
+      "normalized_url": {
+        "type": "string",
+        "format": "uri",
+        "description": "Canonical/normalized form of the URL",
+        "x:ui": {
+          "group": "URL Information",
+          "widget": "text",
+          "order": 2,
+          "placeholder": "Normalized URL",
+          "help": "URL in canonical form (lowercase, normalized path, etc.)"
+        }
+      },
+      "final_url": {
+        "type": "string",
+        "format": "uri",
+        "description": "Final URL after following redirects",
+        "x:ui": {
+          "group": "URL Information",
+          "widget": "text",
+          "order": 3,
+          "placeholder": "Final URL after redirects",
+          "help": "The URL after all redirects were followed"
+        }
+      },
+      "url_hash": {
+        "type": "string",
+        "description": "Hash of the URL for deduplication",
+        "x:ui": {
+          "group": "URL Information",
+          "widget": "text",
+          "order": 4,
+          "placeholder": "URL hash",
+          "help": "Hash of the normalized URL for detecting duplicates"
+        }
+      },
+      "domain": {
+        "type": "string",
+        "description": "Domain name extracted from URL",
+        "x:ui": {
+          "group": "URL Information",
+          "widget": "text",
+          "order": 5,
+          "placeholder": "example.com",
+          "help": "The domain name (e.g., example.com)"
+        }
+      },
+      "protocol": {
+        "type": "string",
+        "enum": [
+          "http",
+          "https",
+          "ftp",
+          "file",
+          "other"
+        ],
+        "description": "Protocol used (http, https, etc.)",
+        "x:ui": {
+          "group": "URL Information",
+          "widget": "select",
+          "order": 6,
+          "placeholder": "Select protocol"
+        }
+      },
+      "path": {
+        "type": "string",
+        "description": "Path component of the URL",
+        "x:ui": {
+          "group": "URL Information",
+          "widget": "text",
+          "order": 7,
+          "placeholder": "/path/to/page",
+          "help": "The path component of the URL"
+        }
+      },
+      "query_string": {
+        "type": "string",
+        "description": "Query string parameters",
+        "x:ui": {
+          "group": "URL Information",
+          "widget": "text",
+          "order": 8,
+          "placeholder": "?param=value",
+          "help": "Query string parameters if present"
+        }
+      },
+      "fragment": {
+        "type": "string",
+        "description": "URL fragment/anchor",
+        "x:ui": {
+          "group": "URL Information",
+          "widget": "text",
+          "order": 9,
+          "placeholder": "#section",
+          "help": "URL fragment/anchor if present"
+        }
+      },
+      "content_type": {
+        "type": "string",
+        "description": "Content-Type header value",
+        "x:ui": {
+          "group": "HTTP Metadata",
+          "widget": "text",
+          "order": 1,
+          "placeholder": "text/html; charset=utf-8",
+          "help": "MIME type and charset from Content-Type header"
+        }
+      },
+      "content_length": {
+        "type": "integer",
+        "description": "Content length in bytes",
+        "x:minimum": 0,
+        "x:ui": {
+          "group": "HTTP Metadata",
+          "widget": "number",
+          "order": 2,
+          "placeholder": "0",
+          "help": "Size of the content in bytes"
+        }
+      },
+      "etag": {
+        "type": "string",
+        "description": "ETag header value",
+        "x:ui": {
+          "group": "HTTP Metadata",
+          "widget": "text",
+          "order": 3,
+          "placeholder": "ETag value",
+          "help": "Entity tag for cache validation"
+        }
+      },
+      "encoding": {
+        "type": "string",
+        "description": "Character encoding",
+        "x:ui": {
+          "group": "HTTP Metadata",
+          "widget": "text",
+          "order": 4,
+          "placeholder": "utf-8",
+          "help": "Character encoding (e.g., utf-8, iso-8859-1)"
+        }
+      },
+      "title": {
+        "type": "string",
+        "description": "Page title from HTML <title> tag",
+        "x:ui": {
+          "group": "Content Metadata",
+          "widget": "text",
+          "order": 1,
+          "placeholder": "Page title",
+          "help": "Title extracted from HTML <title> tag"
+        }
+      },
+      "meta_description": {
+        "type": "string",
+        "description": "Meta description from HTML",
+        "x:ui": {
+          "group": "Content Metadata",
+          "widget": "textarea",
+          "order": 2,
+          "rows": 2,
+          "placeholder": "Meta description",
+          "help": "Description from <meta name=\"description\"> tag"
+        }
+      },
+      "meta_keywords": {
+        "type": "array",
+        "description": "Keywords from meta tags",
+        "x:ui": {
+          "group": "Content Metadata",
+          "widget": "array",
+          "order": 3,
+          "help": "Keywords from meta tags"
+        },
+        "items": {
+          "type": "string"
+        }
+      },
+      "meta_author": {
+        "type": "string",
+        "description": "Author from meta tags",
+        "x:ui": {
+          "group": "Content Metadata",
+          "widget": "text",
+          "order": 4,
+          "placeholder": "Author name",
+          "help": "Author from <meta name=\"author\"> tag"
+        }
+      },
+      "language": {
+        "type": "string",
+        "description": "Language code (ISO 639-1)",
+        "x:pattern": "^[a-z]{2}(-[A-Z]{2})?$",
+        "x:ui": {
+          "group": "Content Metadata",
+          "widget": "text",
+          "order": 5,
+          "placeholder": "en",
+          "help": "Language code (e.g., en, en-US, fr)"
+        }
+      },
+      "charset": {
+        "type": "string",
+        "description": "Character set from HTML",
+        "x:ui": {
+          "group": "Content Metadata",
+          "widget": "text",
+          "order": 6,
+          "placeholder": "utf-8",
+          "help": "Character set from HTML meta charset tag"
+        }
+      },
+      "canonical_url": {
+        "type": "string",
+        "format": "uri",
+        "description": "Canonical URL from HTML",
+        "x:ui": {
+          "group": "Content Metadata",
+          "widget": "text",
+          "order": 7,
+          "placeholder": "Canonical URL",
+          "help": "Canonical URL from <link rel=\"canonical\"> tag"
+        }
+      },
+      "robots_meta": {
+        "type": "string",
+        "description": "Robots meta tag content",
+        "x:ui": {
+          "group": "Content Metadata",
+          "widget": "text",
+          "order": 8,
+          "placeholder": "noindex, nofollow",
+          "help": "Content of robots meta tag"
+        }
+      },
+      "viewport": {
+        "type": "string",
+        "description": "Viewport meta tag content",
+        "x:ui": {
+          "group": "Content Metadata",
+          "widget": "text",
+          "order": 9,
+          "placeholder": "width=device-width, initial-scale=1",
+          "help": "Viewport meta tag content"
+        }
+      },
+      "og_title": {
+        "type": "string",
+        "description": "Open Graph title",
+        "x:ui": {
+          "group": "Open Graph Metadata",
+          "widget": "text",
+          "order": 1,
+          "placeholder": "OG title",
+          "help": "Title from og:title meta tag"
+        }
+      },
+      "og_description": {
+        "type": "string",
+        "description": "Open Graph description",
+        "x:ui": {
+          "group": "Open Graph Metadata",
+          "widget": "textarea",
+          "order": 2,
+          "rows": 2,
+          "placeholder": "OG description",
+          "help": "Description from og:description meta tag"
+        }
+      },
+      "og_image": {
+        "type": "string",
+        "format": "uri",
+        "description": "Open Graph image URL",
+        "x:ui": {
+          "group": "Open Graph Metadata",
+          "widget": "text",
+          "order": 3,
+          "placeholder": "OG image URL",
+          "help": "Image URL from og:image meta tag"
+        }
+      },
+      "og_type": {
+        "type": "string",
+        "description": "Open Graph type",
+        "x:ui": {
+          "group": "Open Graph Metadata",
+          "widget": "text",
+          "order": 4,
+          "placeholder": "website",
+          "help": "Type from og:type meta tag (e.g., website, article)"
+        }
+      },
+      "og_url": {
+        "type": "string",
+        "format": "uri",
+        "description": "Open Graph URL",
+        "x:ui": {
+          "group": "Open Graph Metadata",
+          "widget": "text",
+          "order": 5,
+          "placeholder": "OG URL",
+          "help": "URL from og:url meta tag"
+        }
+      },
+      "og_site_name": {
+        "type": "string",
+        "description": "Open Graph site name",
+        "x:ui": {
+          "group": "Open Graph Metadata",
+          "widget": "text",
+          "order": 6,
+          "placeholder": "Site name",
+          "help": "Site name from og:site_name meta tag"
+        }
+      },
+      "archived_at": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Timestamp when the URL was archived",
+        "x:ui": {
+          "group": "Archive Information",
+          "widget": "datetime",
+          "order": 1,
+          "help": "When this URL was archived"
+        }
+      },
+      "post_processing_required": {
+        "type": "boolean",
+        "description": "Whether this yobj requires post-processing",
+        "default": true,
+        "x:ui": {
+          "group": "Post-Processing",
+          "widget": "checkbox",
+          "order": 1,
+          "readOnly": true,
+          "help": "Indicates if this URL requires archiving/post-processing"
+        }
+      },
+      "post_processing_type": {
+        "type": "string",
+        "description": "Type of post-processing required",
+        "default": "url_archive",
+        "x:ui": {
+          "group": "Post-Processing",
+          "widget": "text",
+          "order": 2,
+          "readOnly": true,
+          "help": "Type of post-processing (e.g., url_archive, video_transcode)"
+        }
+      },
+      "post_processing_status": {
+        "type": "string",
+        "enum": [
+          "pending",
+          "success",
+          "failed"
+        ],
+        "description": "Status of the post-processing",
+        "default": "pending",
+        "x:ui": {
+          "group": "Post-Processing",
+          "widget": "select",
+          "order": 3,
+          "readOnly": true,
+          "placeholder": "Select status",
+          "help": "Current status: pending, success, or failed"
+        }
+      },
+      "post_processing_retries": {
+        "type": "integer",
+        "description": "Number of times post-processing has been retried",
+        "default": 0,
+        "minimum": 0,
+        "x:ui": {
+          "group": "Post-Processing",
+          "widget": "number",
+          "order": 4,
+          "readOnly": true,
+          "help": "Number of retry attempts"
+        }
+      },
+      "post_processing_results": {
+        "type": "object",
+        "description": "Results and artifacts from post-processing",
+        "additionalProperties": true,
+        "x:ui": {
+          "group": "Post-Processing",
+          "widget": "json-editor",
+          "order": 5,
+          "readOnly": true,
+          "help": "Post-processing results (paths to archives, metadata, etc.)"
+        },
+        "properties": {
+          "screenshot_path": {
+            "type": "string",
+            "description": "VFS path to screenshot"
+          },
+          "pdf_path": {
+            "type": "string",
+            "description": "VFS path to PDF snapshot"
+          },
+          "html_path": {
+            "type": "string",
+            "description": "VFS path to HTML archive"
+          },
+          "error": {
+            "type": "string",
+            "description": "Error message if post-processing failed"
+          },
+          "processed_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when post-processing completed"
+          }
+        }
+      },
+      "post_processing_comments": {
+        "type": "string",
+        "description": "Human comments/notes about post-processing (e.g., why it failed, manual intervention notes)",
+        "x:ui": {
+          "group": "Post-Processing",
+          "widget": "textarea",
+          "order": 6,
+          "rows": 3,
+          "placeholder": "Add comments about post-processing...",
+          "help": "Notes about post-processing (can be added by human agent)"
+        }
+      },
+      "thumbnail": {
+        "type": "object",
+        "description": "Thumbnail image for the URL",
+        "x:ui": {
+          "group": "Archive Information",
+          "widget": "object",
+          "order": 4,
+          "help": "Thumbnail image (optional)"
+        },
+        "properties": {
+          "ypath": {
+            "type": "string",
+            "description": "VFS path to thumbnail image"
+          },
+          "mime_type": {
+            "type": "string",
+            "description": "MIME type of thumbnail"
+          },
+          "width": {
+            "type": "integer",
+            "description": "Width in pixels"
+          },
+          "height": {
+            "type": "integer",
+            "description": "Height in pixels"
+          }
+        }
+      },
+      "category": {
+        "type": "string",
+        "description": "Category or topic classification",
+        "x:ui": {
+          "group": "Context",
+          "widget": "text",
+          "order": 1,
+          "placeholder": "Category",
+          "help": "Category or topic for organization"
+        }
+      },
+      "tags": {
+        "type": "array",
+        "description": "Tags for categorization",
+        "x:ui": {
+          "group": "Context",
+          "widget": "array",
+          "order": 2,
+          "help": "Tags for organizing and searching"
+        },
+        "items": {
+          "type": "string"
+        }
+      },
+      "notes": {
+        "type": "string",
+        "description": "User notes about this URL",
+        "x:ui": {
+          "group": "Context",
+          "widget": "textarea",
+          "order": 3,
+          "rows": 3,
+          "placeholder": "Add notes...",
+          "help": "Personal notes or comments about this URL"
+        }
+      },
+      "platform_specific_yobj_available": {
+        "type": "boolean",
+        "description": "Whether a platform-specific yobj exists for this URL",
+        "default": false,
+        "x:ui": {
+          "group": "Platform Information",
+          "widget": "checkbox",
+          "order": 1,
+          "readOnly": true,
+          "help": "Indicates if platform-specific archive (e.g., YouTube video) exists"
+        }
+      },
+      "platform_specific": {
+        "type": "object",
+        "description": "Reference to platform-specific yobj (if available)",
+        "x:ui": {
+          "group": "Platform Information",
+          "widget": "object-reference",
+          "order": 2,
+          "help": "Link to platform-specific archive (YouTube, Twitter, etc.)"
+        },
+        "properties": {
+          "ytype": {
+            "type": "string",
+            "description": "Type of platform-specific yobj",
+            "readOnly": true
+          },
+          "ytype_label": {
+            "type": "string",
+            "description": "Label of platform-specific yobj type",
+            "readOnly": true
+          },
+          "yobj": {
+            "type": "string",
+            "description": "VFS path to platform-specific yobj",
+            "readOnly": true
+          },
+          "yobj_label": {
+            "type": "string",
+            "description": "Label of platform-specific yobj",
+            "readOnly": true
+          }
+        }
+      },
+      "graph": {
+        "type": "array",
+        "description": "List of semantic connections to other objects (RDF-like triples)",
+        "x:ui": {
+          "group": "Relationships",
+          "widget": "relationship-editor",
+          "order": 1,
+          "addLabel": "Add Relationship",
+          "help": "Define semantic relationships with other objects",
+          "predicateGroups": "x:predicateGroups"
+        },
+        "items": {
+          "type": "object",
+          "properties": {
+            "predicate": {
+              "type": "string",
+              "description": "The relationship type",
+              "x:pattern": "^[a-zA-Z]+:[a-zA-Z]+$",
+              "x:ui": {
+                "widget": "predicate-selector",
+                "order": 1,
+                "groupByNamespace": true,
+                "usePredicateGroups": true,
+                "showPredicateProperties": true,
+                "validateConstraints": true
+              }
+            },
+            "inverse": {
+              "type": "string",
+              "description": "The inverse predicate (if applicable)",
+              "x:enum": [
+                "rel:references",
+                "rel:referencedBy",
+                "rel:linksTo",
+                "rel:linkedFrom",
+                "temporal:versionOf",
+                "temporal:hasVersion"
+              ],
+              "x:ui": {
+                "widget": "select",
+                "order": 2,
+                "placeholder": "Select inverse relationship (optional)"
+              }
+            },
+            "ytype": {
+              "type": "string",
+              "description": "Type of the object in this triple",
+              "readOnly": true,
+              "x:ui": {
+                "widget": "type-selector",
+                "order": 3
+              }
+            },
+            "ytype_label": {
+              "type": "string",
+              "description": "Label of the object's type",
+              "readOnly": true,
+              "x:ui": {
+                "widget": "text",
+                "order": 4
+              }
+            },
+            "yobj": {
+              "type": "string",
+              "description": "VFS path to the related object",
+              "x:ui": {
+                "widget": "object-selector",
+                "order": 5
+              }
+            },
+            "yobj_label": {
+              "type": "string",
+              "description": "Label of the related object",
+              "readOnly": true,
+              "x:ui": {
+                "widget": "text",
+                "order": 6
+              }
+            },
+            "temporal": {
+              "type": "object",
+              "description": "Temporal context for this relationship",
+              "properties": {
+                "start": {
+                  "type": "string",
+                  "x:format": "date-time",
+                  "x:ui": {
+                    "widget": "datetime",
+                    "order": 1
+                  }
+                },
+                "end": {
+                  "type": "string",
+                  "x:format": "date-time",
+                  "x:ui": {
+                    "widget": "datetime",
+                    "order": 2
+                  }
+                }
+              }
+            },
+            "provenance": {
+              "type": "object",
+              "description": "Tracking information for this relationship",
+              "properties": {
+                "source": {
+                  "type": "string",
+                  "description": "Origin of this relationship"
+                },
+                "confidence": {
+                  "type": "number",
+                  "description": "Confidence score",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "inferredFrom": {
+                  "type": "array",
+                  "description": "List of relationships this was inferred from",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "validatedBy": {
+                  "type": "array",
+                  "description": "List of validation rules passed",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "ytype": {
+        "type": "string",
+        "description": "Virtual path to the type definition",
+        "readOnly": true
+      },
+      "ytype_label": {
+        "type": "string",
+        "description": "Label of the type",
+        "readOnly": true
+      }
+    },
+    "required": [
+      "name",
+      "label",
+      "description",
+      "url",
+      "archived_at",
+      "post_processing_required",
+      "post_processing_type",
+      "post_processing_status",
+      "post_processing_retries",
+      "post_processing_results",
+      "post_processing_comments",
+      "graph",
+      "ytype",
+      "ytype_label"
+    ]
+  }
+}

@@ -1,0 +1,713 @@
+{
+  "$schema": "https://yettagam.net/ytype_template/1.0.0/schema.json",
+  "$version": "1.0.0",
+  "$role": "yobj-definition",
+  "type": "object",
+  "description": "Schema for yObj (Yettagam Object) instances \u2014 defines the fields every yObj must provide.",
+  "required": [
+    "name",
+    "label",
+    "description",
+    "schema"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the type (determines virtual path)",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "label": {
+      "type": "string",
+      "description": "Human-readable display name for the type",
+      "pattern": "^[A-Za-z0-9\\s_-]+$"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of what this type represents"
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "abstract",
+        "concrete"
+      ],
+      "description": "Whether this type can be instantiated directly",
+      "default": "concrete"
+    },
+    "final": {
+      "type": "boolean",
+      "description": "If true, this type cannot be inherited from",
+      "default": false
+    },
+    "singleton": {
+      "type": "boolean",
+      "description": "If true, only one instance of this type can exist",
+      "default": false
+    },
+    "inherits_from": {
+      "type": "array",
+      "description": "List of parent types",
+      "items": {
+        "type": "string",
+        "pattern": "^/ytypes/[a-z0-9_-]+(/([0-9]+\\.[0-9]+\\.[0-9]+)/[a-z0-9_-]+\\.ytype|/)$"
+      },
+      "uniqueItems": true
+    },
+    "definition": {
+      "logic": {
+        "validation": {
+          "enableSymmetryChecks": true,
+          "enableTransitiveChecks": true,
+          "enableInverseValidation": true,
+          "enforcePredicateRules": true
+        },
+        "inference": {
+          "enableTransitiveInference": true,
+          "enableSymmetricInference": true,
+          "enableInverseInference": true,
+          "maxInferenceDepth": 5
+        },
+        "constraints": {
+          "preventCircularRelations": true,
+          "preventSelfRelations": false,
+          "allowMultiplePredicates": true,
+          "validateTypeCompatibility": true
+        },
+        "runtime": {
+          "autoGenerateInverses": true,
+          "cascadeDeletes": false,
+          "trackProvenance": true,
+          "maintainConsistency": true
+        },
+        "predicateFormat": {
+          "pattern": "^[a-z]+:[a-zA-Z][a-zA-Z0-9]*$",
+          "enforceNamespaces": true,
+          "namespaceRules": {
+            "allowedNamespaces": [
+              "owl",
+              "rdfs",
+              "skos",
+              "cause",
+              "intent",
+              "axiom",
+              "spatial",
+              "temporal",
+              "part",
+              "rel"
+            ],
+            "validatePredicateNames": true,
+            "caseSensitive": false,
+            "allowCustomNamespaces": false
+          },
+          "formatting": {
+            "namespaceCase": "lowercase",
+            "predicateCase": "camelCase",
+            "separatorChar": ":",
+            "normalizeSpaces": true
+          }
+        },
+        "typeInheritanceRules": {
+          "inheritance": {
+            "allowMultipleInheritance": true,
+            "enforceCyclePrevention": true,
+            "maxInheritanceDepth": 10,
+            "requireExplicitFinal": true
+          },
+          "compatibility": {
+            "abstractTypeRules": {
+              "allowAbstractParents": true,
+              "allowConcreteParents": false,
+              "canBeInstantiated": false
+            },
+            "concreteTypeRules": {
+              "allowAbstractParents": true,
+              "allowConcreteParents": true,
+              "canBeInstantiated": true
+            },
+            "singletonTypeRules": {
+              "inheritFromSingleton": false,
+              "allowMultipleChildren": true
+            }
+          },
+          "conflictResolution": {
+            "strategy": "priority",
+            "priorityOrder": [
+              "explicit",
+              "nearest",
+              "latest"
+            ],
+            "fieldResolution": {
+              "properties": "merge",
+              "constraints": "most-restrictive",
+              "defaults": "nearest-wins"
+            },
+            "onConflict": {
+              "action": "warn",
+              "provideResolutionHints": true,
+              "logResolutionPath": true
+            }
+          },
+          "validation": {
+            "validateInheritanceChain": true,
+            "checkTypeCompatibility": true,
+            "enforceAbstractRules": true,
+            "validateFieldOverrides": true,
+            "checks": [
+              "cycle-detection",
+              "depth-limit",
+              "final-type",
+              "abstract-rules",
+              "singleton-rules"
+            ]
+          },
+          "runtime": {
+            "cacheInheritanceChains": true,
+            "revalidateOnTypeChange": true,
+            "trackInheritanceChanges": true,
+            "propagateUpdates": true
+          }
+        }
+      },
+      "predicateGroups": {
+        "owl": {
+          "label": "Web Ontology",
+          "description": "Core ontological relationships",
+          "rules": {
+            "validateConsistency": true,
+            "enforceUniqueness": true
+          },
+          "predicates": {
+            "sameAs": {
+              "description": "Indicates that two objects are exactly the same",
+              "symmetric": true,
+              "properties": {
+                "transitive": true,
+                "reflexive": true,
+                "functional": true,
+                "inverseFunctional": true
+              },
+              "constraints": {
+                "allowSelfReference": false,
+                "requireSameType": true
+              }
+            },
+            "equivalentTo": {
+              "description": "Indicates that two objects have the same meaning",
+              "symmetric": true
+            },
+            "differentFrom": {
+              "description": "Explicitly states that two objects are different",
+              "symmetric": true
+            }
+          }
+        },
+        "rdfs": {
+          "label": "RDF Schema",
+          "description": "Basic semantic relationships",
+          "predicates": {
+            "subClassOf": {
+              "description": "Indicates that one type is a subclass of another",
+              "transitive": true
+            },
+            "seeAlso": {
+              "description": "Suggests additional information about the object"
+            },
+            "isDefinedBy": {
+              "description": "Points to the definition source of the object"
+            }
+          }
+        },
+        "skos": {
+          "label": "Simple Knowledge Organization",
+          "description": "Taxonomic and thesaurus relationships",
+          "predicates": {
+            "exactMatch": {
+              "description": "Indicates exact equivalence between two concepts",
+              "symmetric": true,
+              "transitive": true
+            },
+            "closeMatch": {
+              "description": "Indicates high degree of similarity between concepts",
+              "symmetric": true
+            },
+            "broadMatch": {
+              "description": "Indicates a broader concept relationship",
+              "inverse": "narrowMatch"
+            },
+            "narrowMatch": {
+              "description": "Indicates a narrower concept relationship",
+              "inverse": "broadMatch"
+            },
+            "relatedMatch": {
+              "description": "Indicates an associative relationship between concepts",
+              "symmetric": true
+            }
+          }
+        },
+        "cause": {
+          "label": "Causality",
+          "description": "Causal and dependency relationships",
+          "predicates": {
+            "directCause": {
+              "description": "Direct causal relationship"
+            },
+            "indirectCause": {
+              "description": "Indirect or secondary causal relationship"
+            },
+            "prerequisite": {
+              "description": "Required condition or state"
+            },
+            "trigger": {
+              "description": "Initiating event or condition"
+            },
+            "enables": {
+              "description": "Makes something possible"
+            },
+            "prevents": {
+              "description": "Makes something impossible"
+            }
+          }
+        },
+        "intent": {
+          "label": "Intent",
+          "description": "Purpose and goal relationships",
+          "predicates": {
+            "aimsTo": {
+              "description": "Intended goal or purpose"
+            },
+            "intendedFor": {
+              "description": "Target audience or use case"
+            },
+            "achieves": {
+              "description": "Successfully accomplishes"
+            },
+            "facilitates": {
+              "description": "Makes easier or assists"
+            },
+            "motivates": {
+              "description": "Provides reason or motivation"
+            }
+          }
+        },
+        "axiom": {
+          "label": "Axioms",
+          "description": "Logical and axiomatic relationships",
+          "predicates": {
+            "necessaryFor": {
+              "description": "Required condition"
+            },
+            "sufficientFor": {
+              "description": "Adequate condition"
+            },
+            "mutuallyExclusive": {
+              "description": "Cannot coexist",
+              "symmetric": true
+            },
+            "derivedFrom": {
+              "description": "Logically follows from"
+            },
+            "contradicts": {
+              "description": "Logically incompatible with",
+              "symmetric": true
+            },
+            "implies": {
+              "description": "Logically entails",
+              "transitive": true
+            }
+          }
+        },
+        "spatial": {
+          "label": "Spatial",
+          "description": "Physical and spatial relationships",
+          "rules": {
+            "validateContainment": true,
+            "preventSpatialParadox": true
+          },
+          "predicates": {
+            "contains": {
+              "description": "Physically contains",
+              "inverse": "within",
+              "properties": {
+                "transitive": true,
+                "asymmetric": true,
+                "irreflexive": true
+              },
+              "constraints": {
+                "preventSelfContainment": true,
+                "validateCapacity": true
+              }
+            },
+            "within": {
+              "description": "Is physically inside",
+              "inverse": "contains",
+              "transitive": true
+            },
+            "connects": {
+              "description": "Physically connects to",
+              "symmetric": true
+            },
+            "near": {
+              "description": "Physically close to",
+              "symmetric": true
+            }
+          }
+        },
+        "temporal": {
+          "label": "Temporal",
+          "description": "Time-based relationships",
+          "rules": {
+            "validateTimeOrder": true,
+            "preventTimeParadox": true
+          },
+          "predicates": {
+            "before": {
+              "description": "Occurs earlier in time",
+              "inverse": "after",
+              "properties": {
+                "transitive": true,
+                "asymmetric": true,
+                "irreflexive": true
+              },
+              "constraints": {
+                "requireTemporalTypes": true,
+                "validateTimeflow": true
+              }
+            },
+            "after": {
+              "description": "Occurs later in time",
+              "inverse": "before",
+              "transitive": true
+            },
+            "during": {
+              "description": "Occurs within timespan",
+              "transitive": true
+            }
+          }
+        },
+        "part": {
+          "label": "Part-Whole",
+          "description": "Compositional relationships",
+          "predicates": {
+            "hasPart": {
+              "description": "Contains as a component",
+              "inverse": "isPartOf",
+              "transitive": true
+            },
+            "isPartOf": {
+              "description": "Is a component of",
+              "inverse": "hasPart",
+              "transitive": true
+            },
+            "hasComponent": {
+              "description": "Has as a functional component"
+            }
+          }
+        },
+        "rel": {
+          "label": "General Relations",
+          "description": "Generic relationship types",
+          "predicates": {
+            "references": {
+              "description": "Refers to or mentions"
+            },
+            "dependsOn": {
+              "description": "Has a dependency on"
+            },
+            "influences": {
+              "description": "Has an effect on"
+            },
+            "creates": {
+              "description": "Brings into existence"
+            },
+            "modifies": {
+              "description": "Changes or updates"
+            }
+          }
+        }
+      }
+    },
+    "schema": {
+      "type": "object",
+      "properties": {
+        "ytype": {
+          "type": "string",
+          "description": "Virtual path to the type definition",
+          "readOnly": true,
+          "const": "/ytypes/example-type.ytype",
+          "x:autoAssign": true,
+          "x:ui": {
+            "group": "System Fields",
+            "widget": "text",
+            "order": 1,
+            "hidden": true
+          }
+        },
+        "ytype_label": {
+          "type": "string",
+          "description": "Label of the type (automatically set from type definition)",
+          "readOnly": true,
+          "const": "example-type",
+          "x:autoAssign": true,
+          "x:ui": {
+            "group": "System Fields",
+            "widget": "text",
+            "order": 2,
+            "hidden": true
+          }
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the object (will be used in path)",
+          "x:pattern": "^[a-zA-Z0-9_-]+$",
+          "x:required": true,
+          "x:ui": {
+            "group": "Basic Information",
+            "widget": "text",
+            "order": 1,
+            "placeholder": "Enter object name",
+            "help": "Unique identifier for this object (alphanumeric, dash, underscore)"
+          }
+        },
+        "label": {
+          "type": "string",
+          "description": "Human-readable label for the object",
+          "x:required": true,
+          "x:ui": {
+            "group": "Basic Information",
+            "widget": "text",
+            "order": 2,
+            "placeholder": "Enter display name",
+            "help": "A readable name for displaying this object"
+          }
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the object",
+          "x:required": true,
+          "x:ui": {
+            "group": "Basic Information",
+            "widget": "textarea",
+            "order": 3,
+            "rows": 3,
+            "placeholder": "Describe this object..."
+          }
+        },
+        "graph": {
+          "type": "array",
+          "description": "List of semantic connections to other objects (RDF-like triples)",
+          "x:required": true,
+          "x:ui": {
+            "group": "Relationships",
+            "widget": "relationship-editor",
+            "order": 1,
+            "addLabel": "Add Relationship",
+            "help": "Define semantic relationships with other objects",
+            "predicateGroups": "x:predicateGroups"
+          },
+          "items": {
+            "type": "object",
+            "properties": {
+              "predicate": {
+                "type": "string",
+                "description": "The relationship type",
+                "x:pattern": "^[a-zA-Z]+:[a-zA-Z]+$",
+                "x:ui": {
+                  "widget": "predicate-selector",
+                  "order": 1,
+                  "groupByNamespace": true,
+                  "usePredicateGroups": true,
+                  "showPredicateProperties": true,
+                  "validateConstraints": true
+                }
+              },
+              "inverse": {
+                "type": "string",
+                "description": "The inverse predicate (if applicable)",
+                "x:enum": [
+                  "spatial:contains",
+                  "spatial:within",
+                  "temporal:before",
+                  "temporal:after",
+                  "part:hasPart",
+                  "part:isPartOf",
+                  "rel:references",
+                  "rel:dependsOn",
+                  "rel:influences"
+                ],
+                "x:ui": {
+                  "widget": "select",
+                  "order": 2,
+                  "placeholder": "Select inverse relationship (optional)"
+                }
+              },
+              "ytype": {
+                "type": "string",
+                "description": "Type of the object in this triple",
+                "readOnly": true,
+                "x:ui": {
+                  "widget": "type-selector",
+                  "order": 3
+                }
+              },
+              "ytype_label": {
+                "type": "string",
+                "description": "Label of the object's type",
+                "readOnly": true,
+                "x:autoAssign": true,
+                "x:ui": {
+                  "widget": "text",
+                  "order": 4,
+                  "hidden": true
+                }
+              },
+              "yobj": {
+                "type": "string",
+                "description": "Path to the object (acts as the object in the triple)",
+                "readOnly": true,
+                "x:ui": {
+                  "widget": "object-selector",
+                  "order": 5,
+                  "filterByType": true
+                }
+              },
+              "yobj_label": {
+                "type": "string",
+                "description": "Label of the object",
+                "readOnly": true,
+                "x:autoAssign": true,
+                "x:ui": {
+                  "widget": "text",
+                  "order": 6,
+                  "hidden": true
+                }
+              },
+              "properties": {
+                "type": "object",
+                "description": "Additional properties for this relationship",
+                "x:ui": {
+                  "widget": "collapsible",
+                  "order": 7,
+                  "label": "Advanced Properties"
+                },
+                "properties": {
+                  "symmetric": {
+                    "type": "boolean",
+                    "description": "Whether this relationship is symmetric (A rel B \u27fa B rel A)",
+                    "x:ui": {
+                      "widget": "switch",
+                      "order": 1
+                    }
+                  },
+                  "transitive": {
+                    "type": "boolean",
+                    "description": "Whether this relationship is transitive (A rel B \u2227 B rel C \u27f9 A rel C)",
+                    "x:ui": {
+                      "widget": "switch",
+                      "order": 2
+                    }
+                  },
+                  "reflexive": {
+                    "type": "boolean",
+                    "description": "Whether this relationship is reflexive (A rel A)",
+                    "x:ui": {
+                      "widget": "switch",
+                      "order": 3
+                    }
+                  },
+                  "weight": {
+                    "type": "number",
+                    "description": "Optional weight/strength of the relationship",
+                    "x:ui": {
+                      "widget": "slider",
+                      "order": 4,
+                      "min": 0,
+                      "max": 1,
+                      "step": 0.1
+                    }
+                  },
+                  "confidence": {
+                    "type": "number",
+                    "description": "Confidence score for this relationship",
+                    "x:minimum": 0,
+                    "x:maximum": 1,
+                    "x:ui": {
+                      "widget": "slider",
+                      "order": 5,
+                      "min": 0,
+                      "max": 1,
+                      "step": 0.1
+                    }
+                  },
+                  "temporal": {
+                    "type": "object",
+                    "description": "Temporal aspects of this relationship",
+                    "x:ui": {
+                      "widget": "fieldset",
+                      "order": 6,
+                      "label": "Temporal Bounds"
+                    },
+                    "properties": {
+                      "start": {
+                        "type": "string",
+                        "x:format": "date-time",
+                        "x:ui": {
+                          "widget": "datetime",
+                          "order": 1
+                        }
+                      },
+                      "end": {
+                        "type": "string",
+                        "x:format": "date-time",
+                        "x:ui": {
+                          "widget": "datetime",
+                          "order": 2
+                        }
+                      }
+                    }
+                  },
+                  "provenance": {
+                    "type": "object",
+                    "description": "Tracking information for this relationship",
+                    "properties": {
+                      "source": {
+                        "type": "string",
+                        "description": "Origin of this relationship"
+                      },
+                      "confidence": {
+                        "type": "number",
+                        "description": "Confidence score",
+                        "minimum": 0,
+                        "maximum": 1
+                      },
+                      "inferredFrom": {
+                        "type": "array",
+                        "description": "List of relationships this was inferred from",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "validatedBy": {
+                        "type": "array",
+                        "description": "List of validation rules passed",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "required": [
+              "predicate",
+              "ytype",
+              "ytype_label",
+              "yobj",
+              "yobj_label"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

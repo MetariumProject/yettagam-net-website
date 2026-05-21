@@ -1,0 +1,99 @@
+runtime: python312
+
+handlers:
+  # Static assets
+  - url: /static/css
+    static_dir: static/css
+    expiration: "10m"
+
+  - url: /static/js
+    static_dir: static/js
+    expiration: "10m"
+
+  - url: /static/logos
+    static_dir: static/logos
+    expiration: "1d"
+
+  # yType meta-schema (versioned, immutable)
+  - url: /ytype/(.*)
+    static_files: ytype/\1
+    upload: ytype/(.*)
+    mime_type: application/json
+    expiration: "365d"
+    http_headers:
+      Access-Control-Allow-Origin: "*"
+
+  # yObj template schema (versioned, immutable)
+  - url: /ytype_template/(.*)
+    static_files: ytype_template/\1
+    upload: ytype_template/(.*)
+    mime_type: application/json
+    expiration: "365d"
+    http_headers:
+      Access-Control-Allow-Origin: "*"
+
+  # Types index manifest
+  - url: /ytypes/index\.json
+    static_files: ytypes/index.json
+    upload: ytypes/index\.json
+    mime_type: application/json
+    http_headers:
+      Access-Control-Allow-Origin: "*"
+
+  # Type schemas — versioned permalinks (immutable)
+  - url: /ytypes/([a-z_]+)/([0-9.]+)/(.+)\.ytype
+    static_files: ytypes/\1/\2/\3.ytype
+    upload: ytypes/([a-z_]+)/([0-9.]+)/(.+)\.ytype
+    mime_type: application/json
+    expiration: "365d"
+    http_headers:
+      Access-Control-Allow-Origin: "*"
+
+  # Type schemas — latest.ytype (mutable)
+  - url: /ytypes/([a-z_]+)/latest\.ytype
+    static_files: ytypes/\1/latest.ytype
+    upload: ytypes/([a-z_]+)/latest\.ytype
+    mime_type: application/json
+    expiration: "10m"
+    http_headers:
+      Access-Control-Allow-Origin: "*"
+
+  # Type directory alias — /ytypes/{name}/ resolves to latest.ytype
+  - url: /ytypes/([a-z_]+)/?$
+    static_files: ytypes/\1/latest.ytype
+    upload: ytypes/([a-z_]+)/latest\.ytype
+    mime_type: application/json
+    expiration: "10m"
+    http_headers:
+      Access-Control-Allow-Origin: "*"
+
+  # Agent context
+  - url: /agent-context/?
+    static_files: agent-context/index.json
+    upload: agent-context/index\.json
+    mime_type: application/json
+    http_headers:
+      Access-Control-Allow-Origin: "*"
+
+  # Pages
+  - url: /schemas/?
+    static_files: schemas/index.html
+    upload: schemas/index\.html
+
+  - url: /integration/?
+    static_files: integration/index.html
+    upload: integration/index\.html
+
+  - url: /
+    static_files: index.html
+    upload: index\.html
+
+  # Catch-all — dynamic handler returns 404.html with proper status code
+  - url: /.*
+    script: auto
+
+error_handlers:
+  - error_code: over_quota
+    file: 404.html
+  - error_code: timeout
+    file: 404.html

@@ -1,0 +1,724 @@
+{
+  "$schema": "https://yettagam.net/ytype/1.0.0/schema.json",
+  "$version": "1.0.0",
+  "$role": "type-definition",
+  "name": "commit",
+  "label": "Commit Summary",
+  "description": "Cryptographically signed commit summary containing LBFS and VFS operation signatures",
+  "kind": "concrete",
+  "final": false,
+  "singleton": false,
+  "inherits_from": [
+    "/ytypes/base/"
+  ],
+  "definition": {
+    "logic": {
+      "validation": {
+        "enableSymmetryChecks": true,
+        "enableTransitiveChecks": true,
+        "enableInverseValidation": true,
+        "enforcePredicateRules": true
+      },
+      "inference": {
+        "enableTransitiveInference": true,
+        "enableSymmetricInference": true,
+        "enableInverseInference": true,
+        "maxInferenceDepth": 5
+      },
+      "constraints": {
+        "preventCircularRelations": true,
+        "preventSelfRelations": false,
+        "allowMultiplePredicates": true,
+        "validateTypeCompatibility": true
+      },
+      "runtime": {
+        "autoGenerateInverses": true,
+        "cascadeDeletes": false,
+        "trackProvenance": true,
+        "maintainConsistency": true
+      },
+      "predicateFormat": {
+        "pattern": "^[a-z]+:[a-zA-Z][a-zA-Z0-9]*$",
+        "enforceNamespaces": true,
+        "namespaceRules": {
+          "allowedNamespaces": [
+            "owl",
+            "rdfs",
+            "skos",
+            "cause",
+            "intent",
+            "axiom",
+            "spatial",
+            "temporal",
+            "part",
+            "rel"
+          ],
+          "validatePredicateNames": true,
+          "caseSensitive": false,
+          "allowCustomNamespaces": false
+        },
+        "formatting": {
+          "namespaceCase": "lowercase",
+          "predicateCase": "camelCase",
+          "separatorChar": ":",
+          "normalizeSpaces": true
+        }
+      },
+      "typeInheritanceRules": {
+        "inheritance": {
+          "allowMultipleInheritance": true,
+          "enforceCyclePrevention": true,
+          "maxInheritanceDepth": 10,
+          "requireExplicitFinal": true
+        },
+        "compatibility": {
+          "abstractTypeRules": {
+            "allowAbstractParents": true,
+            "allowConcreteParents": false,
+            "canBeInstantiated": false
+          },
+          "concreteTypeRules": {
+            "allowAbstractParents": true,
+            "allowConcreteParents": true,
+            "canBeInstantiated": true
+          },
+          "singletonTypeRules": {
+            "inheritFromSingleton": false,
+            "allowMultipleChildren": true
+          }
+        },
+        "conflictResolution": {
+          "strategy": "priority",
+          "priorityOrder": [
+            "explicit",
+            "nearest",
+            "latest"
+          ],
+          "fieldResolution": {
+            "properties": "merge",
+            "constraints": "most-restrictive",
+            "defaults": "nearest-wins"
+          },
+          "onConflict": {
+            "action": "warn",
+            "provideResolutionHints": true,
+            "logResolutionPath": true
+          }
+        },
+        "validation": {
+          "validateInheritanceChain": true,
+          "checkTypeCompatibility": true,
+          "enforceAbstractRules": true,
+          "validateFieldOverrides": true,
+          "checks": [
+            "cycle-detection",
+            "depth-limit",
+            "final-type",
+            "abstract-rules",
+            "singleton-rules"
+          ]
+        },
+        "runtime": {
+          "cacheInheritanceChains": true,
+          "revalidateOnTypeChange": true,
+          "trackInheritanceChanges": true,
+          "propagateUpdates": true
+        }
+      }
+    },
+    "predicateGroups": {
+      "owl": {
+        "label": "Web Ontology",
+        "description": "Core ontological relationships",
+        "rules": {
+          "validateConsistency": true,
+          "enforceUniqueness": true
+        },
+        "predicates": {
+          "sameAs": {
+            "description": "Indicates that two objects are exactly the same",
+            "symmetric": true,
+            "properties": {
+              "transitive": true,
+              "reflexive": true,
+              "functional": true,
+              "inverseFunctional": true
+            },
+            "constraints": {
+              "allowSelfReference": false,
+              "requireSameType": true
+            }
+          },
+          "equivalentTo": {
+            "description": "Indicates that two objects have the same meaning",
+            "symmetric": true
+          },
+          "differentFrom": {
+            "description": "Explicitly states that two objects are different",
+            "symmetric": true
+          }
+        }
+      },
+      "rdfs": {
+        "label": "RDF Schema",
+        "description": "Basic semantic relationships",
+        "predicates": {
+          "subClassOf": {
+            "description": "Indicates that one type is a subclass of another",
+            "transitive": true
+          },
+          "seeAlso": {
+            "description": "Suggests additional information about the object"
+          },
+          "isDefinedBy": {
+            "description": "Points to the definition source of the object"
+          }
+        }
+      },
+      "skos": {
+        "label": "Simple Knowledge Organization",
+        "description": "Taxonomic and thesaurus relationships",
+        "predicates": {
+          "exactMatch": {
+            "description": "Indicates exact equivalence between two concepts",
+            "symmetric": true,
+            "transitive": true
+          },
+          "closeMatch": {
+            "description": "Indicates high degree of similarity between concepts",
+            "symmetric": true
+          },
+          "broadMatch": {
+            "description": "Indicates a broader concept relationship",
+            "inverse": "narrowMatch"
+          },
+          "narrowMatch": {
+            "description": "Indicates a narrower concept relationship",
+            "inverse": "broadMatch"
+          },
+          "relatedMatch": {
+            "description": "Indicates an associative relationship between concepts",
+            "symmetric": true
+          }
+        }
+      },
+      "cause": {
+        "label": "Causality",
+        "description": "Causal and dependency relationships",
+        "predicates": {
+          "directCause": {
+            "description": "Direct causal relationship"
+          },
+          "indirectCause": {
+            "description": "Indirect or secondary causal relationship"
+          },
+          "prerequisite": {
+            "description": "Required condition or state"
+          },
+          "trigger": {
+            "description": "Initiating event or condition"
+          },
+          "enables": {
+            "description": "Makes something possible"
+          },
+          "prevents": {
+            "description": "Makes something impossible"
+          }
+        }
+      },
+      "intent": {
+        "label": "Intent",
+        "description": "Purpose and goal relationships",
+        "predicates": {
+          "aimsTo": {
+            "description": "Intended goal or purpose"
+          },
+          "intendedFor": {
+            "description": "Target audience or use case"
+          },
+          "achieves": {
+            "description": "Successfully accomplishes"
+          },
+          "facilitates": {
+            "description": "Makes easier or assists"
+          },
+          "motivates": {
+            "description": "Provides reason or motivation"
+          }
+        }
+      },
+      "axiom": {
+        "label": "Axioms",
+        "description": "Logical and axiomatic relationships",
+        "predicates": {
+          "necessaryFor": {
+            "description": "Required condition"
+          },
+          "sufficientFor": {
+            "description": "Adequate condition"
+          },
+          "mutuallyExclusive": {
+            "description": "Cannot coexist",
+            "symmetric": true
+          },
+          "derivedFrom": {
+            "description": "Logically follows from"
+          },
+          "contradicts": {
+            "description": "Logically incompatible with",
+            "symmetric": true
+          },
+          "implies": {
+            "description": "Logically entails",
+            "transitive": true
+          }
+        }
+      },
+      "spatial": {
+        "label": "Spatial",
+        "description": "Physical and spatial relationships",
+        "rules": {
+          "validateContainment": true,
+          "preventSpatialParadox": true
+        },
+        "predicates": {
+          "contains": {
+            "description": "Physically contains",
+            "inverse": "within",
+            "properties": {
+              "transitive": true,
+              "asymmetric": true,
+              "irreflexive": true
+            },
+            "constraints": {
+              "preventSelfContainment": true,
+              "validateCapacity": true
+            }
+          },
+          "within": {
+            "description": "Is physically inside",
+            "inverse": "contains",
+            "transitive": true
+          },
+          "connects": {
+            "description": "Physically connects to",
+            "symmetric": true
+          },
+          "near": {
+            "description": "Physically close to",
+            "symmetric": true
+          }
+        }
+      },
+      "temporal": {
+        "label": "Temporal",
+        "description": "Time-based relationships",
+        "rules": {
+          "validateTimeOrder": true,
+          "preventTimeParadox": true
+        },
+        "predicates": {
+          "before": {
+            "description": "Occurs earlier in time",
+            "inverse": "after",
+            "properties": {
+              "transitive": true,
+              "asymmetric": true,
+              "irreflexive": true
+            },
+            "constraints": {
+              "requireTemporalTypes": true,
+              "validateTimeflow": true
+            }
+          },
+          "after": {
+            "description": "Occurs later in time",
+            "inverse": "before",
+            "transitive": true
+          },
+          "during": {
+            "description": "Occurs within timespan",
+            "transitive": true
+          }
+        }
+      },
+      "part": {
+        "label": "Part-Whole",
+        "description": "Compositional relationships",
+        "predicates": {
+          "hasPart": {
+            "description": "Contains as a component",
+            "inverse": "isPartOf",
+            "transitive": true
+          },
+          "isPartOf": {
+            "description": "Is a component of",
+            "inverse": "hasPart",
+            "transitive": true
+          },
+          "hasComponent": {
+            "description": "Has as a functional component"
+          }
+        }
+      },
+      "rel": {
+        "label": "General Relations",
+        "description": "Generic relationship types",
+        "predicates": {
+          "references": {
+            "description": "Refers to or mentions"
+          },
+          "dependsOn": {
+            "description": "Has a dependency on"
+          },
+          "influences": {
+            "description": "Has an effect on"
+          },
+          "creates": {
+            "description": "Brings into existence"
+          },
+          "modifies": {
+            "description": "Changes or updates"
+          }
+        }
+      }
+    }
+  },
+  "schema": {
+    "type": "object",
+    "properties": {
+      "commit_id": {
+        "type": "string",
+        "description": "Unique identifier for this commit",
+        "x:pattern": "^[a-zA-Z0-9_-]+$",
+        "x:ui": {
+          "group": "Commit Information",
+          "widget": "text",
+          "order": 1,
+          "readonly": true,
+          "help": "Auto-generated unique commit identifier"
+        }
+      },
+      "timestamp": {
+        "type": "string",
+        "format": "date-time",
+        "description": "When this commit was created",
+        "x:autoAssign": true,
+        "x:ui": {
+          "group": "Commit Information",
+          "widget": "datetime",
+          "order": 2,
+          "readonly": true
+        }
+      },
+      "previous_commit_kuri": {
+        "type": "string",
+        "description": "KURI of the previous commit in the chain (if exists)",
+        "x:pattern": "^blake3://[a-f0-9]{64}$",
+        "x:ui": {
+          "group": "Commit Information",
+          "widget": "text",
+          "order": 3,
+          "readonly": true,
+          "help": "Links to previous commit for chain integrity"
+        }
+      },
+      "lbfs_summary": {
+        "type": "object",
+        "description": "Original LBFS store summary data",
+        "x:ui": {
+          "group": "LBFS Layer",
+          "widget": "json-editor",
+          "order": 1,
+          "readonly": true,
+          "help": "Store summary from LBFS session"
+        },
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "description": "LBFS session identifier"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "LBFS operation timestamp"
+          },
+          "actions_summary": {
+            "type": "object",
+            "description": "Summary of LBFS actions performed"
+          },
+          "kuri_operations": {
+            "type": "object",
+            "description": "KURI-related operations from LBFS",
+            "properties": {
+              "new_kuris": {
+                "type": "array",
+                "description": "List of newly created KURIs",
+                "items": {
+                  "type": "string",
+                  "pattern": "^blake3://[a-f0-9]{64}$"
+                }
+              },
+              "path_changes": {
+                "type": "object",
+                "description": "Paths that changed KURIs",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "from": {
+                      "type": "string",
+                      "pattern": "^blake3://[a-f0-9]{64}$"
+                    },
+                    "to": {
+                      "type": "string",
+                      "pattern": "^blake3://[a-f0-9]{64}$"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "lbfs_signature": {
+        "type": "string",
+        "description": "Digital signature of the LBFS summary",
+        "x:ui": {
+          "group": "LBFS Layer",
+          "widget": "text",
+          "order": 2,
+          "readonly": true,
+          "help": "Cryptographic signature from LBFS"
+        }
+      },
+      "lbfs_signer": {
+        "type": "string",
+        "description": "Address/identifier of the LBFS signer",
+        "x:ui": {
+          "group": "LBFS Layer",
+          "widget": "text",
+          "order": 3,
+          "readonly": true,
+          "help": "Public key/address that signed LBFS summary"
+        }
+      },
+      "vfs_operations": {
+        "type": "object",
+        "description": "VFS operations performed in this commit",
+        "x:ui": {
+          "group": "VFS Layer",
+          "widget": "json-editor",
+          "order": 1,
+          "readonly": true,
+          "help": "File system operations from VFS"
+        },
+        "properties": {
+          "files_added": {
+            "type": "object",
+            "description": "Files added to the VFS (path -> KURI mapping)",
+            "additionalProperties": {
+              "type": "string",
+              "pattern": "^blake3://[a-f0-9]{64}$",
+              "description": "KURI of the file content"
+            }
+          },
+          "files_updated": {
+            "type": "array",
+            "description": "Files updated in the VFS",
+            "items": {
+              "type": "object",
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "description": "Virtual path of the file"
+                },
+                "old_kuri": {
+                  "type": "string",
+                  "pattern": "^blake3://[a-f0-9]{64}$",
+                  "description": "Previous KURI of the file"
+                },
+                "new_kuri": {
+                  "type": "string",
+                  "pattern": "^blake3://[a-f0-9]{64}$",
+                  "description": "New KURI of the file"
+                }
+              }
+            }
+          },
+          "files_deleted": {
+            "type": "array",
+            "description": "Files deleted from the VFS",
+            "items": {
+              "type": "object",
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "description": "Virtual path of the deleted file"
+                },
+                "last_kuri": {
+                  "type": "string",
+                  "pattern": "^blake3://[a-f0-9]{64}$",
+                  "description": "Last KURI before deletion"
+                }
+              }
+            }
+          },
+          "folders_created": {
+            "type": "array",
+            "description": "Folders created in the VFS",
+            "items": {
+              "type": "object",
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "description": "Virtual path of the folder"
+                }
+              }
+            }
+          },
+          "state_transition": {
+            "type": "object",
+            "description": "VFS state transition information",
+            "properties": {
+              "from_root_kuri": {
+                "type": "string",
+                "pattern": "^blake3://[a-f0-9]{64}$",
+                "description": "Previous root KURI"
+              },
+              "to_root_kuri": {
+                "type": "string",
+                "pattern": "^blake3://[a-f0-9]{64}$",
+                "description": "New root KURI after operations"
+              }
+            }
+          }
+        }
+      },
+      "vfs_signature": {
+        "type": "string",
+        "description": "Digital signature of the VFS operations",
+        "x:ui": {
+          "group": "VFS Layer",
+          "widget": "text",
+          "order": 2,
+          "readonly": true,
+          "help": "Cryptographic signature from VFS"
+        }
+      },
+      "vfs_signer": {
+        "type": "string",
+        "description": "Address/identifier of the VFS signer",
+        "x:ui": {
+          "group": "VFS Layer",
+          "widget": "text",
+          "order": 3,
+          "readonly": true,
+          "help": "Public key/address that signed VFS operations"
+        }
+      },
+      "ytype": {
+        "type": "string",
+        "description": "Virtual path to the type definition",
+        "readOnly": true
+      },
+      "ytype_label": {
+        "type": "string",
+        "description": "Label of the type",
+        "readOnly": true
+      },
+      "name": {
+        "type": "string",
+        "description": "Name of the commit (will be used in path)",
+        "x:pattern": "^[a-zA-Z0-9_-]+$",
+        "x:ui": {
+          "group": "Basic Information",
+          "help": "Unique identifier for this commit (alphanumeric, dash, underscore)",
+          "order": 1,
+          "placeholder": "Enter commit name",
+          "widget": "text"
+        }
+      },
+      "label": {
+        "type": "string",
+        "description": "Human-readable label for the commit",
+        "x:ui": {
+          "group": "Basic Information",
+          "help": "A readable name for displaying this commit",
+          "order": 2,
+          "placeholder": "Enter display name",
+          "widget": "text"
+        }
+      },
+      "description": {
+        "type": "string",
+        "description": "Description of the commit",
+        "x:ui": {
+          "group": "Basic Information",
+          "order": 3,
+          "placeholder": "Describe this commit...",
+          "rows": 3,
+          "widget": "textarea"
+        }
+      },
+      "graph": {
+        "type": "array",
+        "description": "List of semantic connections to other objects (RDF-like triples)",
+        "items": {
+          "type": "object",
+          "properties": {
+            "predicate": {
+              "type": "string",
+              "description": "The relationship type"
+            },
+            "ytype": {
+              "type": "string",
+              "description": "Type of the object in this triple"
+            },
+            "ytype_label": {
+              "type": "string",
+              "description": "Label of the object's type"
+            },
+            "yobj": {
+              "type": "string",
+              "description": "Path to the object (acts as the object in the triple)"
+            },
+            "yobj_label": {
+              "type": "string",
+              "description": "Label of the object"
+            }
+          },
+          "required": [
+            "predicate",
+            "ytype",
+            "ytype_label",
+            "yobj",
+            "yobj_label"
+          ]
+        },
+        "x:ui": {
+          "addLabel": "Add Relationship",
+          "group": "Relationships",
+          "help": "Define semantic relationships with other objects",
+          "order": 1,
+          "widget": "relationship-editor"
+        }
+      }
+    },
+    "required": [
+      "commit_id",
+      "timestamp",
+      "lbfs_summary",
+      "lbfs_signature",
+      "lbfs_signer",
+      "vfs_operations",
+      "vfs_signature",
+      "vfs_signer",
+      "ytype",
+      "ytype_label",
+      "name",
+      "label",
+      "description",
+      "graph"
+    ]
+  }
+}

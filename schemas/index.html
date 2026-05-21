@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>schema browser — yettagam</title>
+  <meta name="description" content="browse yettagam type definitions — interactive schema browser with type hierarchy and detail views.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="schema browser — yettagam">
+  <meta property="og:url" content="https://yettagam.net/schemas/">
+  <meta property="og:site_name" content="yettagam">
+  <link rel="icon" type="image/svg+xml" href="/static/logos/favicon.svg">
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="/" class="nav-brand">
+        <img class="nav-logo" src="/static/logos/favicon.svg" alt="yettagam" width="32" height="32">
+        <span>yettagam</span>
+      </a>
+      <button class="nav-toggle" aria-label="Menu">&#9776;</button>
+      <ul class="nav-links">
+        <li><a href="/schemas/">schemas</a></li>
+        <li><a href="/integration/">integration</a></li>
+        <li><a href="https://github.com/MetariumProject/yettagam-net-website" target="_blank" rel="noopener">GitHub</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <section class="section">
+      <h2 class="section-title">schema browser</h2>
+      <div class="schema-layout">
+        <div class="type-tree"></div>
+        <div class="schema-detail">
+          <p class="text-muted">select a type from the tree to view its schema definition</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>part of <a href="https://metarium.net">metarium.net</a></p>
+    <p>maintained by <a href="https://onemai.net">onemai foundation</a></p>
+    <p>author <a href="https://metakovan.net">metakovan</a></p>
+    <p>&copy; 2025 yettagam. all rights reserved.</p>
+  </footer>
+
+  <script>
+    document.querySelector('.nav-toggle').addEventListener('click', function () {
+      document.querySelector('.nav-links').classList.toggle('open');
+    });
+  </script>
+  <script src="/static/js/schema-browser.js"></script>
+
+</body>
+</html>
