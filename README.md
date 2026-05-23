@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="static/logos/logo.svg" alt="yettagam" width="120" height="120">
+</p>
+
 # yettagam.net
 
 yettagam is a digital safe storage box — a coinage of "yettu" + "pettagam". in tamil, "yettu" means "8" (the number eight) and "pettagam" means "box". the shape of 8, like on a calculator display, can represent all digits — a reference to completeness and versatility. it is a set of JSON schemas (yType) that can be instantiated into objects (yObj). when saying yObj or yType, the "y" is silent.

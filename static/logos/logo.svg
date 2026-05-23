@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- Outer 8 shape -->
+  <!-- Top circle -->
+  <circle cx="100" cy="65" r="48" fill="none" stroke="#7ec8e3" stroke-width="5"/>
+  <!-- Bottom circle -->
+  <circle cx="100" cy="140" r="48" fill="none" stroke="#7ec8e3" stroke-width="5"/>
+
+  <!-- Inner geometric shapes representing yObj instances -->
+  <!-- Small square in top loop -->
+  <rect x="86" y="50" width="28" height="28" rx="4" fill="none" stroke="#7ec8e3" stroke-width="3" opacity="0.6"/>
+  <!-- Small circle in bottom loop -->
+  <circle cx="100" cy="142" r="15" fill="none" stroke="#7ec8e3" stroke-width="3" opacity="0.6"/>
+  <!-- Tiny diamond at intersection -->
+  <polygon points="100,95 108,103 100,111 92,103" fill="#7ec8e3" opacity="0.5"/>
+</svg>
