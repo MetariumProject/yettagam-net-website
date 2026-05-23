@@ -24,8 +24,16 @@ https://yettagam.net/ytypes/{name}/                          # alias for latest.
 
 browse all types at [yettagam.net/schemas/](https://yettagam.net/schemas/) or see the [integration guide](https://yettagam.net/integration/) for full details.
 
+## contributing
+
+yettagam is an open schema ecosystem. we welcome new yType definitions from anyone. see [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide on how to create and submit a new type via pull request.
+
 ## deployment
 
 ```bash
 gcloud app deploy --project=yetttagam-net
 ```
+
+## license
+
+licensed under the [Apache License 2.0](LICENSE). copyright 2025 onemai foundation.
