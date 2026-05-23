@@ -284,35 +284,43 @@ const instanceSchema = typeDef.schema;
     <section class="section content">
       <h2 class="section-title">contributing new types</h2>
       <p>
-        yettagam is an open schema ecosystem. new types can be contributed by anyone
-        following these steps:
+        yettagam is an open schema ecosystem licensed under
+        <a href="https://github.com/MetariumProject/yettagam-net-website/blob/main/LICENSE" target="_blank" rel="noopener">Apache License 2.0</a>.
+        new types can be contributed by anyone via pull request.
       </p>
       <ol class="steps">
         <li>
           <strong>create a .ytype file</strong>
           <p>
             author a new type definition following the meta-schema at
-            <a href="https://yettagam.net/ytype/1.0.0/schema.json">https://yettagam.net/ytype/1.0.0/schema.json</a>.
-            validate your file against the meta-schema before submitting.
-          </p>
-        </li>
-        <li>
-          <strong>include all required fields</strong>
-          <p>
-            every yType definition must include these top-level fields:
-            <code>$schema</code>, <code>$version</code>, <code>$role</code>,
-            <code>name</code>, <code>label</code>, <code>description</code>,
+            <a href="https://yettagam.net/ytype/1.0.0/schema.json">yettagam.net/ytype/1.0.0/schema.json</a>.
+            your file must include all required fields: <code>$schema</code>, <code>$version</code>,
+            <code>$role</code>, <code>name</code>, <code>label</code>, <code>description</code>,
             <code>kind</code>, <code>final</code>, <code>singleton</code>,
             <code>inherits_from</code>, <code>definition</code>, and <code>schema</code>.
           </p>
         </li>
         <li>
+          <strong>add files to the repo</strong>
+          <p>
+            place your type in the correct directory structure:
+          </p>
+          <pre><code>ytypes/
+  my_type/
+    1.0.0/my_type.ytype    # versioned permalink
+    latest.ytype            # identical copy</code></pre>
+          <p>
+            update <code>ytypes/index.json</code> with your type entry (keep alphabetical order).
+          </p>
+        </li>
+        <li>
           <strong>submit a pull request</strong>
           <p>
-            open a pull request to
-            <a href="https://github.com/MetariumProject/yettagam-net-website" target="_blank" rel="noopener">https://github.com/MetariumProject/yettagam-net-website</a>
-            adding your file to <code>ytypes/{name}/1.0.0/{name}.ytype</code> and updating
-            <code>ytypes/index.json</code> with the new type entry.
+            fork the repo, create a branch, and open a pull request to
+            <a href="https://github.com/MetariumProject/yettagam-net-website" target="_blank" rel="noopener">github.com/MetariumProject/yettagam-net-website</a>.
+            see the full
+            <a href="https://github.com/MetariumProject/yettagam-net-website/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">contributing guide</a>
+            for detailed instructions, naming conventions, predicate groups, and the review process.
           </p>
         </li>
       </ol>
