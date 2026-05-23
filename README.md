@@ -1,6 +1,6 @@
 # yettagam.net
 
-yettagam is a digital safe storage box — a coinage of "yettu" + "pettagam" (Tamil for box). it is a set of JSON schemas (yType) that can be instantiated into objects (yObj). when saying yObj or yType, the "y" is silent.
+yettagam is a digital safe storage box — a coinage of "yettu" + "pettagam". in tamil, "yettu" means "8" (the number eight) and "pettagam" means "box". the shape of 8, like on a calculator display, can represent all digits — a reference to completeness and versatility. it is a set of JSON schemas (yType) that can be instantiated into objects (yObj). when saying yObj or yType, the "y" is silent.
 
 part of the [metarium.net](https://metarium.net) ecosystem, maintained by [onemai foundation](https://onemai.net), author [metakovan](https://metakovan.net).
 
