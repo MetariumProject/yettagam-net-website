@@ -1,9 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
-  <!-- Box body -->
-  <rect x="4" y="10" width="24" height="18" rx="2" ry="2" fill="#7ec8e3" opacity="0.9"/>
-  <!-- Box lid -->
-  <rect x="2" y="6" width="28" height="6" rx="2" ry="2" fill="#7ec8e3"/>
-  <!-- Lock/clasp -->
-  <rect x="13" y="17" width="6" height="5" rx="1" ry="1" fill="#fff" opacity="0.8"/>
-  <circle cx="16" cy="19" r="1.2" fill="#7ec8e3"/>
+  <!-- Top circle -->
+  <circle cx="16" cy="10.5" r="7.8" fill="none" stroke="#7ec8e3" stroke-width="1.6"/>
+  <!-- Bottom circle -->
+  <circle cx="16" cy="22.5" r="7.8" fill="none" stroke="#7ec8e3" stroke-width="1.6"/>
+  <!-- Small square in top loop -->
+  <rect x="12.5" y="7.5" width="7" height="7" rx="1.2" fill="none" stroke="#7ec8e3" stroke-width="1" opacity="0.6"/>
+  <!-- Small circle in bottom loop -->
+  <circle cx="16" cy="22.8" r="3.5" fill="none" stroke="#7ec8e3" stroke-width="1" opacity="0.6"/>
+  <!-- Diamond at intersection -->
+  <polygon points="16,14.8 18.2,16.5 16,18.2 13.8,16.5" fill="#7ec8e3" opacity="0.5"/>
 </svg>
